@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -25,10 +25,6 @@
               "Name": "ST:0:0:{ebe3f1d5-feac-4131-bf03-0e85ffb89a89}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "GameCoding.cpp",
@@ -36,7 +32,7 @@
               "RelativeDocumentMoniker": "GameCoding\\GameCoding.cpp",
               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeToolTip": "GameCoding\\GameCoding.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-02T12:58:46.046Z",
               "EditorCaption": ""
