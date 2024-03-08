@@ -20,6 +20,6 @@ int main()
 		HandleMove();
 
 		// 출력
-		PrintMap1D();
+		PrintMap2D();
 	}
 }
