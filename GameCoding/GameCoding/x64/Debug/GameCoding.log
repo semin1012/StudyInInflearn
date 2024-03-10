@@ -1,4 +1,2 @@
 ﻿  GameCoding.cpp
-D:\00.Project\StudyInInflearn\GameCoding\GameCoding\GameCoding.cpp(53,10): warning C4311: '형식 캐스트': 'int *'에서 'int'(으)로 포인터가 잘립니다.
-D:\00.Project\StudyInInflearn\GameCoding\GameCoding\GameCoding.cpp(53,10): warning C4302: '형식 캐스트': 'int *'에서 'int'(으)로 잘립니다.
   GameCoding.vcxproj -> D:\00.Project\StudyInInflearn\GameCoding\x64\Debug\GameCoding.exe
