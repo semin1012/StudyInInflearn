@@ -8,43 +8,67 @@ struct StatInfo
 	int defence;
 };
 
-void Print(int* ptr, int count)
+StatInfo CreatePlayer()
 {
-	// 이런식으로 ptr의 시작 주소와 배열의 크기만 알면
-	// 배열의 모든 곳을 다 돌 수 있다.
+	StatInfo info;
+
+	cout << "플레이어 생성 " << endl;
+
+	info.hp = 100;
+	info.attack = 10;
+	info.defence = 2;
+	
+	return info;
+}
+
+void CreateMonster(StatInfo* info)
+{
+	cout << "몬스터 생성" << endl;
+
+	info->hp = 40;
+	info->attack = 8;
+	info->defence = 1;
+}
+
+void Battle(StatInfo* player, StatInfo* monster)
+{
+	while (true)
+	{
+		int damage = player->attack - monster->defence;
+		if (damage < 0)
+			damage = 0;
+
+		monster->hp -= damage;
+		if (monster->hp < 0)
+			monster->hp = 0;
+
+		cout << "몬스터 HP: " << monster->hp << endl;
+
+		if (monster->hp == 0)
+			return;
+
+		damage = monster->attack - player->defence;
+		if (damage < 0)
+			damage = 0;
+
+		player->hp -= damage;
+		if (player->hp < 0)
+			player->hp = 0;
+
+		cout << "플레이어 HP: " << player->hp << endl;
+
+		if (player->hp == 0)
+			return;
+	}
 }
 
 int main()
 {
-	// 포인터 연산
-	// - 주소 연산자(&)
-	// - 산술 연산자 (+-)
-	//	  -> 다음 주소로 넘어갈 때 사용
-	// - 간접 연산자 (*)
-	// - 간접 멤버 연산자 (->)
-
-	int hp = 100;
-	hp += 50;
-
-	int* ptr = &hp;
-	ptr += 1;
-	// 데이터의 크기만큼 한 칸 뒤로 이동하게 된다
-	// 주소가 바뀌는 것. 4바이트만큼 뒤로 갈 것.
-
-	int numbers[100] = { 1,2,3,4,5,6 };
-
-	int* ptr1 = &numbers[0];
-	ptr1 += 1;
-
-	cout << *ptr1 << endl;	// 2가 나옴
+	StatInfo player;
+	player = CreatePlayer();
 
 	StatInfo monster;
-	monster.hp = 100;
-	monster.attack = 10;
-	monster.defence = 1;
-	StatInfo* ptrMonster = &monster;
-
-	cout << (*ptrMonster).hp << endl;	// 이렇게 사용 가능
-	// (*ptrMonster).hp == ptrMonster->hp
-	cout << ptrMonster->hp << endl;		// 위 코드와 같음
+	CreateMonster(&monster);
+	
+	Battle(&player, &monster);
 }
