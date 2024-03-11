@@ -1,28 +1,75 @@
 ﻿#include <iostream>
 using namespace std;
 
+struct StatInfo
+{
+	int hp;
+	int attack;
+	int defence;
+};
+
+// 1) 값(복사) 전달 방식
+//StatInfo의 크기가 커질수록 메모리 부담이 커진다.
+void PrintByCopy(StatInfo player)
+{
+	cout << "-----------------------------" << endl;
+	cout << "H P: " << player.hp << endl;
+	cout << "ATT: " << player.attack << endl;
+	cout << "DEF: " << player.defence << endl;
+	cout << "-----------------------------" << endl;
+
+}
+
+// 2) 주소 전달 방식
+void PrintByPointer(StatInfo* player)
+{
+	cout << "-----------------------------" << endl;
+	cout << "H P: " << player->hp << endl;
+	cout << "ATT: " << player->attack << endl;
+	cout << "DEF: " << player->defence << endl;
+	cout << "-----------------------------" << endl;
+
+}
+
+#define OUT
+// OUT을 사용해서 참조된 player가 변할 것을 명시해 둠
+// 참조를 쓸 때 값 변경이 없다면 StatInfo& 앞에 const를 붙임
+// #define PI 3.141592 라고 하면 컴파일 단계에서 PI가 숫자로 치환되는데
+// 현재 OUT 뒤에는 아무것도 없으니 컴파일 단계에서 그냥 사라지는 코드가 됨
+void PrintByRef(OUT StatInfo& player)
+{
+	cout << "-----------------------------" << endl;
+	cout << "H P: " << player.hp << endl;
+	cout << "ATT: " << player.attack << endl;
+	cout << "DEF: " << player.defence << endl;
+	cout << "-----------------------------" << endl;
+	player.hp = 110;
+}
+
+
+
 int main()
 {
-	cout << "Hello World" << endl;
-
-	char ch = 'A';
-	cout << ch << endl;
-
-	char str[] = { 'H', 'e', 'l', 'l', 'o' };
-	// 이 문법에서 'H'와 같은 문자 각각은 스택 영역에 저장된다. 
-	cout << str << endl; // Hello儆儆儆儆儆儆儆儆儆儆儆儆儆儆儆季-긃?
-	// '\0'(null 처리, 0으로 넣어도 됨)를 넣어 줘야 긑인 걸 알아듣는다.
-	// 안 넣어 주면 위의 결과처럼 이상하게 뜸
-
-	char str2[] = "Hello "; // 요즘 쓰는 스타일
-	cout << str2 << endl;
-
-	const char* ptr = "Hello";
-	// 포인터로 사용하려면 const를 적어야 한다.
-	// 포인터를 타고 간 다음의 데이터를 건들이지 말라는 뜻, 가르키는 변수 자체는 다른 걸로 바꿔도 됨
-	// char* const a << 이렇게 쓸 수도 있다. 
-	// 이건 애당초 a를 바꿀 수 없다는 것. 포인터 변수를 바꿔칠 수가 없다.
-	// 포인터의 변경을 막고 싶으면 const char* const 이렇게 쓸 수 있으나 잘 안 씀.
-	// 이 문법에서 지역 변수(char)에 담긴 ‘문자열’은 데이터 영역에 포함된다.
-	// char이 가르키는 데이터의 주소값은 스택 영역에 저장되지만, 주소값이 가르키는 데이터는 데이터 영역에 저장되는 것이다. 포인터를 사용했기 때문에.
+	StatInfo player = { 100, 10, 1 };
+	
+	PrintByCopy(player);
+	
+	//POINTER
+	// 1) 원본을 건드리고 싶을 때 (원격)
+	// 2) 복사 비용 X
+	// 3) nullptr을 사용 가능함, 없는 것을 찾을 수 있다
+	//	  다만 null 처리를 안 해서 크래쉬가 날 가능성 有
+	StatInfo* ptr = nullptr;
+	PrintByPointer(&player);
+	
+	//REFERENCE
+	// 내부 원리는 포인터와 같지만 사용방식은 아무것도 안 붙은
+	// 기본 자료형처럼 사용하면 된다. -> 이거 안 씀. & 이거 안 씀.
+	// 1) 원본을 건드리고 싶을 때 원격으로 사용 가능
+	// 2) 복사 비용 X, 참조하는 거니까
+	// 다만 ptr는 nullptr을 표현할 수 있다.
+	// 닉네임을 찾을 때 해당하는 값이 없어도 null 값으로 리턴할 수 없다.
+	// 참조할 때는 값을 안 바꾸기 위함을 강조하려고 참조 앞에 const를 붙여서 나타내기도 한다.
+	// - void PrintByRef(const StatInfo& player)처럼!
+	PrintByRef(OUT player); // OUT, player를 고친다는 뜻
 }
