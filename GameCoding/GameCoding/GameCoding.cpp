@@ -11,66 +11,64 @@ using namespace std;
 // - 은닉성
 // - 다형성
 
-// GameObject
-// - Creature
-// -- Player, Monster, Npc, Pet
-// - projectile
-// -- Arrow, Fireball
-// - Env ...
-// 이런식으로 유기적 클래스 디자인 설계 가능
-// 상속 구조 미리 생각해 두면서 설계하는 게 좋다
+// 접근 지정자
+// public, protected, private
 
-// Item
-// - Weapon
-// -- Sword, Bow, Lance
-// - Armor
-// -- Helmet, Boots, Armor, Glove
-// - Consumable
-// -- Potion, Scroll
-
-enum PLAYER_TYPE
-{
-	PT_KNIGHT = 1,
-	PT_MAGE = 2,
-	PT_ARCHER = 3,
-};
-
-class Player
+class Car
 {
 public:
-	void Move() {}
-	void Attack() { }
-	void Die() { }
+	void MoveHandle() {}
+	void PushPedal() {}
+	void OpenDoor() {}
+	void TurnKey()
+	{
+		// ......
+		// 
+	}
+
+private:
+	void PutFuellnEngine() {}
+	void ConnectCircuit() {}
+
+protected:
+	void Disassemble() {}
 
 public:
-	int _hp;
-	int _attack;
-	int _defence;
 };
 
-//설계도
-class Knight : public Player
+class SuperCar : Car
 {
 public:
-
-public:
-	int _stamina;
+	void Test() 
+	{
+		MoveHandle();
+		Disassemble();
+	}
 };
 
-class Archer : public Player
+class Knight
 {
 public:
+	void SetHp(int hp)
+	{
+		_hp = hp;
+	}
 
-public:
-	int _arrowCount;
+	int GetHp()
+	{
+		return _hp;
+	}
+
+private:
+	int _hp = 100;
 };
 
-class Mage : public Player
+int main()
 {
-public:
+	Car c;	
 
-public:
-	int _mp;
-};
-
+	Knight k1;
+	k1.SetHp(200);
+	// k1._hp = 200처럼 직접 고치는 코드는 아주 안 좋다. 
+}
  
