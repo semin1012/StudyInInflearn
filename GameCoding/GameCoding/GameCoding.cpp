@@ -11,6 +11,30 @@ using namespace std;
 // - 은닉성
 // - 다형성
 
+// GameObject
+// - Creature
+// -- Player, Monster, Npc, Pet
+// - projectile
+// -- Arrow, Fireball
+// - Env ...
+// 이런식으로 유기적 클래스 디자인 설계 가능
+// 상속 구조 미리 생각해 두면서 설계하는 게 좋다
+
+// Item
+// - Weapon
+// -- Sword, Bow, Lance
+// - Armor
+// -- Helmet, Boots, Armor, Glove
+// - Consumable
+// -- Potion, Scroll
+
+enum PLAYER_TYPE
+{
+	PT_KNIGHT = 1,
+	PT_MAGE = 2,
+	PT_ARCHER = 3,
+};
+
 class Player
 {
 public:
@@ -30,6 +54,7 @@ class Knight : public Player
 public:
 
 public:
+	int _stamina;
 };
 
 class Archer : public Player
@@ -48,10 +73,4 @@ public:
 	int _mp;
 };
 
-int main()
-{
-	Knight k1;
-	k1._hp;
-	Mage m1;
-	m1._hp;
-}
+ 
