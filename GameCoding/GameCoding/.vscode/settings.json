@@ -1,0 +1,12 @@
+{
+    "editor.fontSize": 15,
+    "files.exclude": {
+        "**/Helper.cpp": true,
+        "**/Helper.h": true,
+        "**/Map.cpp": true,
+        "**/Map.h": true
+    },
+    "files.associations": {
+        "iostream": "cpp"
+    }
+}
