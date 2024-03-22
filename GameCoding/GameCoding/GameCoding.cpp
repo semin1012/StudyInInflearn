@@ -2,61 +2,72 @@
 using namespace std;
 #include <iomanip>
 
-// 객체지향(Object Oriented Programming)
-// 데이터 + 로직
+// MMO 동접 1만, 몬스터 50만
 
-// class는 설계도!
-// 다중 상속은 막아둬서 안 된다. 설계상에 문제가 생김.
+// - 스택
+// - 메모리
+// 두 가지로는 방대한 MMO RPG 데이터를 감당하기 힘들다
+// 스택은 공간 자체가 좁아서 백만마리 몬스터 생성부터 불가능
+// 데이터(전역)은 만들 수는 있지만 공간 해제할 수가 없음
 
-class Object
-{
-	// = 0을 붙이면 순수 가상함수가 된다. 단독 사용 불가능해짐.
-	virtual void Shout() = 0;
-};
-
-class IFly
-{
-	// Fly는 is-a 관계나 has-a 관계가 아님.
-	// Interface로 구현되는 클래스임. 순수 가상함수로 만든다.
-	// IFly 상속 받는 클래스는 무조건 Fly()와 Land()를 구현해야 한다.
-	virtual void Fly();
-	virtual void Land();
-};
-
-class Player : public Object, public IFly
+class Monster
 {
 public:
-	Player() {}
-	~Player() {}
-	
-	// Interface 클래스를 받아왔으니 무조건 구현해야 함
-	virtual void Fly() override { }
-	virtual void Land() override { }
+	Monster() { cout << "Monster()" << endl; }
+	~Monster() { cout << "~Monster()" << endl; }
 
-	// operator() 사용할 수 있음
-
-	// 어떤 class의 Shout을 호출할지는 런타임에 결정되는 동적 바인딩, virtual 
-	virtual void Shout() { }
-
-	void Move() {}
-	void SetHp(int hp) { this->hp = hp; }
-
-private:
-	int hp = 10;
+public:
+	int _hp = 0;
 };
 
-void AddObject(Player* player)
+class Player
 {
-	player->Shout();
-}
+public:
+	Monster* _target;
+};
 
-void FlyTest(IFly* fly)
-{
-
-}
+// 스택은 불안정한 공간이지만 힙은 안정적인 공간이다
+// 다만 힙은 직접적으로 관리해야 한다는 단점이 있다
 
 int main()
 {
-	Player p;
-	FlyTest(&p); // IFly 대신 Player형 사용 가능, 상속받아 구현되어 있기 때문에
+	// malloc + free 세트
+	// new + delete 세트
+	// 위 둘의 차이는 연산자 차이다. 생성자, 소멸자의 호출에 차이가 있음.
+	//  - malloc은 생성자, 소멸자가 전혀 안 뜸. 
+
+	
+	// malloc 사용법, 생성자 호출 X, 공간을 지정해야 하는 불편함
+	/*void* ptr = malloc(1000); // heap 영역에 할당해 달라고 하는 것
+	
+	Monster* m = (Monster*)ptr;
+	m->_hp = 100;
+	
+	free(ptr);*/ // 해제를 수기로 해야 함, 안 하면 메모리 누수
+
+
+	// new 사용법, 생성자 호출됨
+	// 연달아 있는 배열로 호출 가능, 지울 때도 delete[] 해야 함
+	Monster* m1 = new Monster();
+	//Monster* m1 = new Monster[5]();
+	m1->_hp = 100;
+
+	delete m1;
+
+	// 이거 의외로 크래시 안 남
+	m1->_hp = 200;
+	// 매번 요청하는 대로 생성,삭제하면 너무 느림
+	// 그래서 일단 날리지는 않고 들고 있는다
+	// 잡을 수 없는 문제가 되면 더욱 큰일이 될 수 있음
+
+	m1 = nullptr;
+	// = 0이라고 명시해도 됨
+	// 이렇게 바뀌면 사용하려고 할 때 크래쉬가 난다.
+
+	Player* player = new Player();
+	player->_target = m1;
+
+	delete m1;
+	m1 = nullptr;
+	// 이렇게 해도 player->_taget은 사라지지 않음. 크래쉬 가능성 큼.
 }
