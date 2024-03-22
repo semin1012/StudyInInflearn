@@ -5,62 +5,58 @@ using namespace std;
 // 객체지향(Object Oriented Programming)
 // 데이터 + 로직
 
-// stati : 특정 객체에 종속적인지
-//	 - 클래스로 만들어낸 모든 객체의 값이 공통되게 된다.
-//	 - 메모리 낭비가 되지 않도록 함.
+// class는 설계도!
+// 다중 상속은 막아둬서 안 된다. 설계상에 문제가 생김.
 
-// 자료구조&알고리즘
-// 디자인 패턴
-//  - 싱글톤, 옵저버, 콤포넌트, ...
+class Object
+{
+	// = 0을 붙이면 순수 가상함수가 된다. 단독 사용 불가능해짐.
+	virtual void Shout() = 0;
+};
 
-// 싱글톤 - 정말 딱 1개만 존재하고 어디서든 사용할 수 있는 [매니저] 클래스
+class IFly
+{
+	// Fly는 is-a 관계나 has-a 관계가 아님.
+	// Interface로 구현되는 클래스임. 순수 가상함수로 만든다.
+	// IFly 상속 받는 클래스는 무조건 Fly()와 Land()를 구현해야 한다.
+	virtual void Fly();
+	virtual void Land();
+};
 
-class UserManager
+class Player : public Object, public IFly
 {
 public:
-	static UserManager* GetInstance()
-	{
-		// um은 static이라 다른 메모리에 만들어지게 됨, 사라지지 않음
-		static UserManager um;
-		return &um;
-	}
+	Player() {}
+	~Player() {}
+	
+	// Interface 클래스를 받아왔으니 무조건 구현해야 함
+	virtual void Fly() override { }
+	virtual void Land() override { }
 
-public:
-	void AddUser() { _userCount++; }
-	int GetUserCount() { return _userCount; }
+	// operator() 사용할 수 있음
+
+	// 어떤 class의 Shout을 호출할지는 런타임에 결정되는 동적 바인딩, virtual 
+	virtual void Shout() { }
+
+	void Move() {}
+	void SetHp(int hp) { this->hp = hp; }
 
 private:
-	int _userCount = 0;
+	int hp = 10;
 };
 
-class Player
+void AddObject(Player* player)
 {
-public:
-	Player()
-	{
-		id = s_idGenerator++;
-	}
-
-public:
-	int id;
-	// 처음 만들 때 초기화해 줘야 되겠지만 이렇게 id를 만들면 편해서 이렇게 잘 쓴다
-	static int s_idGenerator;
-};
-
-int Player::s_idGenerator = 1;
-
-int GenerateId()
-{
-	static int s_id = 10; // 안 사라짐
-	return s_id++;
+	player->Shout();
 }
 
-#define GET_MANAGER (UserManager::GetInstance())
+void FlyTest(IFly* fly)
+{
+
+}
 
 int main()
 {
-	for (int i = 0; i < 10; i++)
-		GET_MANAGER->AddUser(); // = UserManager::GetInstance()->AddUser();
-
-	cout << GET_MANAGER->GetUserCount() << endl;
+	Player p;
+	FlyTest(&p); // IFly 대신 Player형 사용 가능, 상속받아 구현되어 있기 때문에
 }
