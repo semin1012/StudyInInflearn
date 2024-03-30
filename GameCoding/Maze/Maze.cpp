@@ -1,26 +1,38 @@
 ﻿#include <iostream>
-#include "List.h"
+#include "Array.h"
+#include "Vector.h"
+using namespace std;
 
 int main()
 {
-	List li;
-	
-	li.AddAtTail(1);
-	// 이렇게 특정 데이터를 기억해 뒀다가 삭제하는 건 굉장히 빠르다.
-	Node* node = li.AddAtTail(2);
-	li.AddAtTail(3);
+	//Array arr(100);
 
-	li.Print();
+	//arr.push_back(1);
+	//arr.push_back(2);
+	//arr.push_back(3);
+	//arr.push_back(4);
 
-	li.Remove(node);
+	//arr[1] = 2;
 
-	// 하지만 이렇게 GetNode로 위치를 찾은 뒤에 삭제하는 것은 느리다.
-	// 연결 리스트의 검색 자체가 느리기 때문.
-	li.Remove(li.GetNode(0));
+	Vector v;
 
-	// 위치를 기억하지 않고는 중간 삽입/삭제가 빠르다.
-	// 서치를 따로 해야 하는 경우에는 삽입/삭제가 빠르지 않다. 
-	// 중간에 임의 접근을 해야 하는 경우는 전혀 빠르지 않다. 임의접근 안 됨.
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
 
-	li.Print();
+	for (int i = 0; i < 100; i++) {
+		v.push_back(19);
+	}
+
+	int a = v[100];
+
+	// C#에서는 동적배열(list) vs 연결리스트(linkedList)
+	// 동적배열(vector) vs 연결리스트(list)
+
+	// 배열 ㄷ 동적배열 ㄷ 연결리스트
+	// - 배열: 확실하게 변할 일이 없다, 인벤토리 착용 아이템 슬롯, 외형 슬롯 등
+	// - 동적배열: 배열을 대체해도 됨. 그냥 배열 = 동적배열 비슷하게 생각해도 됨. 
+	//			   대부분 동적배열이 더 빠르게 움직인다. 데이터들이 한곳에 뭉쳐있기 때문에 빠르다.
+	//			   때문에 동적배열을 쓰는 경우가 더 많다. 
+	// - 연결리스트: 생각보다 느리다. 중간 삽입,삭제에서만 이점이 있음. 쓸 데가 생각보다 없음.
 }
