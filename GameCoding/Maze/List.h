@@ -2,11 +2,9 @@
 #include <iostream>
 using namespace std;
 
+template<typename T>
 class Node
 {
-    //typedef int T; < 옛날 문법
-    // 나중에 데이터 타입 바꾸려고 이렇게 선언
-    using T = int;
 public:
     Node(int data) : data(data), prev(nullptr), next(nullptr) { }
 
@@ -16,26 +14,27 @@ public:
     Node* next;
 };
 
+template<typename T>
 class List
 {
 public:
     List()
     {
         // dummy 노드 추가
-        _head = new Node(0);
-        _tail = new Node(0);
+        _head = new Node<T>(0);
+        _tail = new Node<T>(0);
         _head->next = _tail;
         _tail->prev = _head;
     }
 
     ~List()
     {
-        Node* node = _head;
+        Node<T>* node = _head;
         while (node) // == (node != nullptr)
         {
             // node 를 바로 삭제시키면 다음으로 이동할 수 없기 때문에
             // 새로운 노드를 사용하여 삭제시키기
-            Node* deleteNode = node;
+            Node<T>* deleteNode = node;
             node = node->next;
             delete deleteNode;
         }
@@ -46,9 +45,9 @@ public:
     // 데이터를 찾는 게 느리다. 처음부터 끝까지 봐야 하기 때문에.
     // 그럼 어떻게 중간 삽입/삭제가 빠르냐?
 
-    Node* GetNode(int index)
+    Node<T>* GetNode(int index)
     {
-        Node* node = _head->next;
+        Node<T>* node = _head->next;
         if (node == _tail)
             return nullptr;
 
@@ -66,7 +65,7 @@ public:
 
     void Print()
     {
-        Node* node = _head->next;
+        Node<T>* node = _head->next;
         while (node != _tail)
         {
             cout << node->data << " ";
@@ -74,7 +73,7 @@ public:
         }
     }
 
-    Node* AddAtHead(int data)
+    Node<T>* AddAtHead(int data)
     {
         //Node* node = new Node(data);
 
@@ -101,8 +100,8 @@ public:
         //       [node]
         // [dummy]<->[nextNode]<->[2]<->[3]<->[dummy]
         // [head]                       [tail]
-        Node* node = new Node(data);
-        Node* nextNode = _head->next;
+        Node<T>* node = new Node<T>(data);
+        Node<T>* nextNode = _head->next;
 
         node->next = nextNode;
         nextNode->prev = node;
@@ -118,8 +117,8 @@ public:
     // [head]                       [tail]
     Node* AddAtTail(int data)
     {
-        Node* node = new Node(data);
-        Node* prevNode = _tail->prev;
+        Node<T>* node = new Node<T>(data);
+        Node<T>* prevNode = _tail->prev;
 
         prevNode->next = node;
         node->prev = prevNode;
@@ -130,10 +129,10 @@ public:
         return node;
     }
 
-    void Insert(Node* posNode, int data)
+    void Insert(Node<T>* posNode, int data)
     {
-        Node* node = new Node(data);
-        Node* prevNode = posNode->prev;
+        Node<T>* node = new Node<T>(data);
+        Node<T>* prevNode = posNode->prev;
 
         prevNode->next = node;
         node->prev = prevNode;
@@ -141,10 +140,10 @@ public:
         posNode->prev = node;
     }
 
-    Node* Remove(Node* node)
+    Node* Remove(Node<T>* node)
     {
-        Node* prevNode = node->prev;
-        Node* nextNode = node->next;
+        Node<T>* prevNode = node->prev;
+        Node<T>* nextNode = node->next;
         prevNode->next = nextNode;
         nextNode->prev = prevNode;
 
@@ -154,6 +153,6 @@ public:
     }
 
 private:
-    Node* _head = nullptr;
-    Node* _tail = nullptr;
+    Node<T>* _head = nullptr;
+    Node<T>* _tail = nullptr;
 };

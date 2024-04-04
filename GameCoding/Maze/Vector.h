@@ -1,10 +1,9 @@
 #pragma once
 #include "assert.h"
 
+template<typename T>
 class Vector
 {
-	using T = Pos;
-
 public:
 	// 다른 클래스에서 간접적 변환이 되는 것을 막는 것 explicit
 	explicit Vector(int capacity = 100) : _capacity(capacity)

@@ -29,7 +29,7 @@ public:
 	Board*		_board = nullptr;
 
 	// 동적 배열
-	Vector		_path;
+	Vector<Pos>	_path;
 	int32		_pathIndex = 0;
 	uint64		_sumTick = 0;
 };
