@@ -33,10 +33,13 @@ void Item::PrintInfo()
 	{
 	case IR_Normal:
 		cout << "[Èñ±Íµµ] ÀÏ¹Ý" << endl;
+		break;
 	case IR_Rare:
 		cout << "[Èñ±Íµµ] ·¹¾î" << endl;
+		break;
 	case IR_Unique:
 		cout << "[Èñ±Íµµ] À¯´ÏÅ©" << endl;
+		break;
 	}
 }
 
@@ -46,6 +49,18 @@ void Item::PrintInfo()
 
 Weapon::Weapon()
 {
+	switch (_rarity)
+	{
+	case IR_Normal:
+		_damage = 1 + rand() % 5;
+		break;
+	case IR_Rare:
+		_damage = 10 + rand() % 20;
+		break;
+	case IR_Unique:
+		_damage = 50 + rand() % 40 ;
+		break;
+	}
 }
 
 Weapon::~Weapon()
@@ -67,6 +82,18 @@ void Weapon::PrintInfo()
 
 Armor::Armor()
 {
+	switch (_rarity)
+	{
+	case IR_Normal:
+		_defence = 1 + rand() % 5;
+		break;
+	case IR_Rare:
+		_defence = 10 + rand() % 20;
+		break;
+	case IR_Unique:
+		_defence = 50 + rand() % 40;
+		break;
+	}
 }
 
 Armor::~Armor()
