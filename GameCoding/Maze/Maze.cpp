@@ -2,12 +2,26 @@
 #include "Vector.h"
 #include "Player.h"
 #include "Board.h"
+#include "Stack.h"
 
 Board board;
 Player player;
 
 int main()
 {
+	Stack<int> st;
+
+	st.push(1);
+	st.push(2);
+	st.push(3);
+
+	// 사용할 데이터를 먼저 꺼낸다.
+	int a = st.top();
+	// 마지막 데이터를 삭제한다.
+	st.pop();
+
+	//----------------------------------------------------------------------------
+
 	::srand(static_cast<uint32>(time(nullptr)));
 
 	board.Init(25, &player);

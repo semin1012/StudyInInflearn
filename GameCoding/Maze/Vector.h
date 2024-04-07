@@ -60,6 +60,16 @@ public:
 		return _buffer[_size-1];
 	}
 
+	// 크기를 정해서 강제로 변경하는 개념
+	// 8 칸을 3 칸으로 재정의할 수 있음. reserve 는 키울 수만 있다. 
+	void resize(int size)
+	{
+		// TODO
+		reserve(size);
+		_size = size;
+	}
+
+	// capacity 를 정해서 메모리를 할당하는 개념
 	void reserve(int capacity)
 	{
 		if (_capacity >= capacity)
