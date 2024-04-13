@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "D:\\00.Project\\StudyInInflearn\\GameCoding\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\Inventory.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\RPGGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\RPGGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Item.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\Item.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\RPGGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\RPGGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|solutionrelative:RPGGame\\Inventory.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EB69A09B-2F11-4792-BB1C-215D23B5924F}|RPGGame\\RPGGame.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Item.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -96,17 +96,17 @@
         },
         {
           "DockedWidth": 186,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Inventory.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.cpp",
               "RelativeDocumentMoniker": "RPGGame\\Inventory.cpp",
-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.cpp*",
-              "RelativeToolTip": "RPGGame\\Inventory.cpp*",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAABAAAAA",
+              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.cpp",
+              "RelativeToolTip": "RPGGame\\Inventory.cpp",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAoAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-13T06:57:01.108Z",
               "EditorCaption": ""
@@ -126,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "RPGGame.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\RPGGame.cpp",
               "RelativeDocumentMoniker": "RPGGame\\RPGGame.cpp",
@@ -139,13 +139,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "GameCoding.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeDocumentMoniker": "GameCoding\\GameCoding.cpp",
               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeToolTip": "GameCoding\\GameCoding.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAACkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-04T14:09:07.593Z",
               "EditorCaption": ""
@@ -293,13 +293,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Inventory.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.h",
               "RelativeDocumentMoniker": "RPGGame\\Inventory.h",
               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\RPGGame\\Inventory.h",
               "RelativeToolTip": "RPGGame\\Inventory.h",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAB4AAAAIAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-04-13T06:47:33.375Z",
               "EditorCaption": ""

@@ -28,8 +28,6 @@ private:
 	int FindItemSlot(Item* item);
 
 private:
-	Item a;
-
 	Item* _items[MAX_SLOT];
 	int _itemCount = 0;
 
