@@ -1,2 +1,6 @@
 ﻿  Inventory.cpp
-  RPGGame.vcxproj -> D:\00.Project\StudyInInflearn\GameCoding\x64\Debug\RPGGame.exe
+  RPGGame.cpp
+D:\00.Project\StudyInInflearn\GameCoding\RPGGame\Inventory.h(31,7): error C2079: 'Inventory::a'은(는) 정의되지 않은 class 'Item'을(를) 사용합니다.
+  (소스 파일 'Inventory.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...

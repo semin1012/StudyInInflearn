@@ -1,4 +1,8 @@
 #include "Inventory.h"
+#include "Item.h"
+// cpp에 인클루드하는 것이 중요하다. 
+// header에 인클루드를 하면 다른 곳에서 Inventory.h를 인클루드하는 경우 Item.h까지 모두 컴파일하게 되어서 무거워짐.
+// Inventroy.h 와 Item.h 등 헤더끼리 얽히는 경우 사이클이 반복되어서 오류가 크게 생길 수 있다.
 
 Inventory* Inventory::s_instance = nullptr;
 

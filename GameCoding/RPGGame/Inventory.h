@@ -5,6 +5,9 @@ enum
 	MAX_SLOT = 100
 };
 
+class Item;
+// 나중에 Item 이 나올 것을 명시하는 코드
+
 class Inventory
 {
 public:
@@ -25,6 +28,7 @@ private:
 	int FindItemSlot(Item* item);
 
 private:
+	Item a;
 
 	Item* _items[MAX_SLOT];
 	int _itemCount = 0;
