@@ -1,5 +1,4 @@
 #pragma once
-#include "Item.h"
 
 enum
 {
@@ -26,6 +25,7 @@ private:
 	int FindItemSlot(Item* item);
 
 private:
+
 	Item* _items[MAX_SLOT];
 	int _itemCount = 0;
 

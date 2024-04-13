@@ -4,40 +4,59 @@ using namespace std;
 class Player
 {
 public:
-	virtual ~Player() {	};
+	Player()
+	{
+		cout << "Player()" << endl;
+	}
+
+	virtual ~Player()
+	{
+		cout << "~Player()" << endl;
+	}
 };
 
-class Knight : public Player
+class Pet
 {
-public:
-	int hp;
-	int defence;
+
 };
 
-class Dog
+class Archer : public Player
 {
 public:
-	int age;
-	int size;
+	Archer()
+	{
+		_pet = new Pet();
+		cout << "Archer()" << endl;
+	}
+
+	virtual ~Archer()
+	{
+		cout << "~Archer()" << endl;
+		delete _pet;
+	}
+
+private:
+	Pet* _pet;
 };
 
 int main()
 {
-	// C 스타일 캐스팅
+	while (true)
+	{
+		Player* player = new Archer();
+		delete player;
 
-	Knight* k = new Knight(); 
+	}
 
-	Dog* dog = (Dog*)k;
-	// 포인터는 화살표를 타고 가면 무엇이 있을 것이라는 '주장'이다.
-	// 주장으로 떼를 쓰고 있는 상황이기 때문에 일단 컴파일이 넘어간다. 
 
-	// 원본은 나이트인데 도그로 타입 변환한 상황에서 밑의 코드는 어떤 일이 일어나겠는가?
-	// Player에는 virtual 함수도 있어서 Knight와 Dog의 메모리 구조도 달라졌다. 
-	// Knight의 한 공간이 Dog로 바뀌었을 때 age의 위치와 겹칠 텐데, 그 Knight의 한 공간을 age라고 생각하고 엉뚱하게 건들게 된다.
-	// 크기가 일치하건, 안 하건 문제는 발생한다. 
-	// 그러나 오류 코드가 발생하지는 않기 때문에 메모리가 이상하게 사용되고 있는 상황이 발생. 
-	dog->age = 10;
-	// (*dog).age = 10; 위와 100퍼센트 동일한 의미
+	// 1. Archer* player = new Archer(); 로 만들 경우에는 
+	//		Player() -> Archer() -> ~Archer() -> ~Player()
+	//		= 정상적이다.
 
+	// 2. Player* player = new Archer(); 로 만들 경우에는
+	//		Player() -> Archer() -> ~Player() 
+	//		= ~Archer()에서 중요한 작업을 할 때에는 문제가 생길 수 있다. 
+	//		이 코드에서는 Pet을 소멸시키고 있음. 중요함. 메모리가 자꾸 올라간다. 
+	//		따라서 소멸자에 virtual을 붙여야만 메모리가 제대로 관리된다. 
 }
  
