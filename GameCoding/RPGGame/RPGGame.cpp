@@ -29,6 +29,15 @@ int main()
         Item* item = DropItem();
         item->PrintInfo();
 
+        ItemType itemType = item->GetItemType();
+        if (itemType == IT_Weapon)
+        {
+            Weapon* weapon = static_cast<Weapon*>(item);
+        }
+
+        // Weapon* weapon = dynamic_cast<Weapon*>(item); // 위와 같은 방식이다. static_cast 대신 dynamic_cast
+        // 그렇지만 dynamic_cast가 조금 더 느리다는 결과가 있어서 민감한 경우 잘 안 쓴다. 매 프레임마다 쓰는 경우는 아니라면 써도 괜찮다.
+
         if (Inventory::GetInstance()->AddItem(item))
         {
             cout << "Added Item to Inven" << endl;
