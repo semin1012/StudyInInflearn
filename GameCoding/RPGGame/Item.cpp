@@ -5,7 +5,7 @@ using namespace std;
 //				     Item
 // *******************************************
 
-Item::Item()
+Item::Item(ItemType itemType) : _itemType(itemType)
 {
 	int randValue = rand() % 100;
 
@@ -47,7 +47,7 @@ void Item::PrintInfo()
 //				   Weapon
 // *******************************************
 
-Weapon::Weapon()
+Weapon::Weapon() : Item(IT_Weapon)
 {
 	switch (_rarity)
 	{
@@ -80,7 +80,7 @@ void Weapon::PrintInfo()
 //				    Armor
 // *******************************************
 
-Armor::Armor()
+Armor::Armor() : Item(IT_Armor)
 {
 	switch (_rarity)
 	{
