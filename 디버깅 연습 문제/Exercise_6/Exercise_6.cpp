@@ -22,6 +22,8 @@ int main()
 	k2->_attack = 100;
 
 	k1->OnDamaged(k2);
+	k1->PrintInfo();
+	k2->PrintInfo();
 
 	delete k1;
 	delete k2;

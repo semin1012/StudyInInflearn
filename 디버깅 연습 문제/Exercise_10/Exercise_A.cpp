@@ -39,18 +39,26 @@ int main()
 	for (int i = 0; i < 10; i++)
 	{
 		arrows[i]->AttackTarget();
-
+		
 		// 기사가 죽었으면 소멸시켜준다
-		if (knight != nullptr)
-		{
-			if (knight->IsDead())
-			{
-				delete knight;
-				knight = nullptr;
-			}
-		}	
+		//if (knight != nullptr)
+		//{
+		//	if (knight->IsDead())
+		//	{
+		//		delete knight;
+		//		knight = nullptr;
+		//	}
+		//}	
+
+		// 설계상의 문제임.
+		// 기사가 삭제되면 arrow가 가르키는 기사가 없어지기 때문에 오류가 남.
+		// 따라서 arrow에 knight를 넣는 게 아니라 knight의 ID를 가져서 있는지 없는지 
+		// 확인하는 방식으로 설계하는 게 좋다.
 
 		delete arrows[i];
 		arrows[i] = nullptr;
 	}
+
+	delete archer;
+	delete knight;
 }

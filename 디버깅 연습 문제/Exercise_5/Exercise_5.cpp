@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
 	Knight* k1 = new Knight();
-	k1->_hp = 100;
+	k1->_hp = 42;
 	k1->_maxHp = 100;
 	k1->_attack = 100;
 
@@ -24,9 +24,11 @@ int main()
 
 	int damage = k1->GetAttackDamage();
 	k2->AddHp(-damage);
+	k2->PrintInfo();
 
 	int damage2 = k2->GetAttackDamage();
 	k1->AddHp(-damage2);
+	k1->PrintInfo();
 	
 	delete k1;
 	delete k2;

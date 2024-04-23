@@ -14,6 +14,7 @@ public:
 
 public:
 	int _hp;
+	const int _maxHp = 4000;
 	int _attack;
 };
 
