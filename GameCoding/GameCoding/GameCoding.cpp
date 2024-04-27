@@ -1,47 +1,110 @@
 ﻿#include <iostream>
+#include <vector>
 using namespace std;
 
-// Vector/List -> Tree -> Gragh -> BFS -> Dijikstra -> A* (PQ)
-// 모든 애들이 엮어 있다. 순차적으로 알아볼 것.
-
-void Func(int a)
+class Node
 {
-	if ( a == 0 )
-		return;
+public:
+	Node(const char* data) : data(data) { }
 
-	cout << a << endl;
+public:
+	const char* data;
+	vector<Node*> childen;
+};
 
-	Func(a-1);
-	// 이렇게 되면 스택 오버플로우, 할당된 스택 프레임을 초과해서 사용하기 때문에 스택 오버플로우 발생.
-	// for문 사용하면 되는 것을 왜 이렇게 하냐?
-	//  - Tree의 경우 똑같은 함수를 재사용하면 상황을 재현하기가 좋을 때가 있다. 이럴 때 사용함.
+Node* CreateTree()
+{
+	Node* root = new Node("R1 개발실");
+	{
+		Node* node = new Node("디자인팀");	
+		root->childen.push_back(node);
+		{
+			Node* leaf = new Node("전투");
+			node->childen.push_back(leaf);
+		}
+		{
+			Node* leaf = new Node("경제");
+			node->childen.push_back(leaf);
+		}
+		{
+			Node* leaf = new Node("스토리");
+			node->childen.push_back(leaf);
+		}
+	}
+	{
+		Node* node = new Node("프로그래밍팀");	
+		root->childen.push_back(node);
+		{
+			Node* leaf = new Node("클라");
+			node->childen.push_back(leaf);
+		}
+		{
+			Node* leaf = new Node("서버");
+			node->childen.push_back(leaf);
+		}
+		{
+			Node* leaf = new Node("엔진");
+			node->childen.push_back(leaf);
+		}
+	}
+	{
+		Node* node = new Node("아트팀");	
+		root->childen.push_back(node);
+		{
+			Node* leaf = new Node("배경");
+			node->childen.push_back(leaf);
+		}
+		{
+			Node* leaf = new Node("캐릭터");
+			node->childen.push_back(leaf);
+		}
+	}
+
+	return root;
 }
 
-// 5! (팩토리얼) = 5*4*3*2*1 = 120
-// n! = n * (n-1)!
-
-int Factorial(int n)
+// 깊이(Depth): 루트에서 어떤 노드에 도달하기 위해 거쳐야 하는 간선의 개수
+void PrintTree(Node* root, int depth = 0)
 {
-	if ( n <= 1 )
-		return 1;
-	return n * Factorial(n-1);
+	for( int i = 0 ; i < depth; i++ )
+		cout << " ";
+
+	cout << root->data << endl;
+
+	int size = root->childen.size();
+	if ( size > 0 )
+	{
+		for ( int i = 0 ; i < size; i++ ) 
+		{
+			Node* node = root->childen[i];
+			PrintTree(node, depth+1);
+		}
+		cout << endl;
+	}	
 }
 
-// 유클리드 알고리즘
-// a > b
-// GCD(1071, 1029)
-// = GCD(1029, 1071%1029=42)
-// = GCD(42, 1029%42=21)
-// = GCD(21, 0) = 21
-
-int Gcd(int a, int b)
+// 높이 
+int GetHeight(Node* root)
 {
-	if ( b == 0 )
-		return a;
-	return Gcd(b, a%b);
+	int ret = 1;
+
+	int size = root->childen.size();
+	for ( int i = 0 ; i < size ; i++ )
+	{
+		Node* node = root->childen[i];
+		int h = GetHeight(node) + 1;
+		// 이게 이해 안 가면 노션 
+
+		if (ret < h)
+			ret = h;
+	}
+
+	return ret;
 }
 
 int main()
 {
-	cout << Gcd(1071, 1029) << endl;
+	Node* root = CreateTree();
+
+	PrintTree(root);
 }
