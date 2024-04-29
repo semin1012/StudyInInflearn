@@ -107,4 +107,6 @@ int main()
 	Node* root = CreateTree();
 
 	PrintTree(root);
+
+	cout << GetHeight(root) << endl;
 }
