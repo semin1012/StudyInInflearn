@@ -115,7 +115,7 @@ public:
     //                                    [node]
     // [dummy]<->[1]<->[2]<->[prevNode]<->[dummy]
     // [head]                       [tail]
-    Node* AddAtTail(int data)
+    Node<T>* AddAtTail(int data)
     {
         Node<T>* node = new Node<T>(data);
         Node<T>* prevNode = _tail->prev;
@@ -140,7 +140,7 @@ public:
         posNode->prev = node;
     }
 
-    Node* Remove(Node<T>* node)
+    Node<T>* Remove(Node<T>* node)
     {
         Node<T>* prevNode = node->prev;
         Node<T>* nextNode = node->next;

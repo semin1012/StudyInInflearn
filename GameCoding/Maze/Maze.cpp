@@ -3,22 +3,26 @@
 #include "Player.h"
 #include "Board.h"
 #include "Stack.h"
+#include "List.h"
 
 Board board;
 Player player;
 
 int main()
 {
-	Stack<int> st;
+	List<int> li;
 
-	st.push(1);
-	st.push(2);
-	st.push(3);
+	auto node2 = li.GetNode(0);
 
-	// 사용할 데이터를 먼저 꺼낸다.
-	int a = st.top();
-	// 마지막 데이터를 삭제한다.
-	st.pop();
+	li.AddAtHead(1);
+	li.AddAtHead(2);
+
+	auto node3 = li.GetNode(1);
+
+	li.AddAtHead(3);
+	li.Print();
+
+	auto node = li.GetNode(3);
 
 	//----------------------------------------------------------------------------
 

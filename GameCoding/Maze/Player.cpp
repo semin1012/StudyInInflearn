@@ -7,8 +7,9 @@ void Player::Init(Board* board)
 	_pos = board->GetEnterPos();
 	_board = board;
 
-	CalculatePath_RightHand();
+	//CalculatePath_RightHand();
 	//CalculatePath_BFS();
+	CalculatePath_AStar();
 }
 
 void Player::Update(uint64 deltaTick)
@@ -191,5 +192,150 @@ void Player::CalculatePath_BFS()
 	_path = temp;
 
 	// 위에 temp로 만드는 코드랑 밑의 코드랑 같은 결과임
-	// std::reverse(_path.begin(), _path.end());
+	std::reverse(_path.begin(), _path.end());
+}
+
+
+// BFS, 다익스트라는 목적지의 개념이 없음!
+// 스타크래프트의 안개처럼 시야를 막아서 어디로 가야 하는지 모르는 것!
+
+// 결국 채점을 할 때 (채점 기준)
+// - 입구에서부터 얼마나 떨어져 있는지?
+// - 출구에서부터 얼마나 떨어져 있는지?
+
+struct PQNode
+{
+	PQNode(int32 f, int32 g, Pos pos) : f(f), g(g), pos(pos) {}
+
+	bool operator<(const PQNode& other) const { return f < other.f; }
+	bool operator>(const PQNode& other) const { return f > other.f; }
+
+	int32 f;	// f = g + h
+	int32 g;
+	Pos pos;
+};
+
+void Player::CalculatePath_AStar()
+{
+	// F = G + H
+	// F = 최종 점수(작을수록 좋다)
+	// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용
+	// H = 목적지에서 해당 좌표까지 이동하는데 드는 비용	
+	// G 하나만 있거나 H 하나만 있는 공식도 당연히 가능
+	// 그저 점수를 우리가 유동적으로 매겨 줄 수 있다는 것이 핵심이다.
+
+	// 시작 위치
+	Pos start = _pos;
+	// 목적지, 얘를 진짜로 이용하게 된다!!
+	Pos dest = _board->GetExitPos();
+	// 네 방향 정의
+	Pos front[] =
+	{
+		Pos(-1, 0),	//UP
+		Pos(0, -1),	//LEFT
+		Pos(1, 0),	//DOWN
+		Pos(0, 1),	//RIGHT
+	};
+
+	// 상하좌우에 대한 코스트
+	int32 cost[] =
+	{
+		10,
+		10,
+		10,
+		10,
+	};
+
+	const int32 size = _board->GetSize();
+
+	// best[y][x] -> 지금까지 (y, x)에 대한 가장 좋은 비용 (작을수록 좋음)
+	vector<vector<int32>> best(size, vector<int32>(size, INT32_MAX));
+
+	// closedList -> closed[y][x] -> (y, x)에 실제로 방문을 했는지 여부 (발견과 방문은 다르다)
+	// Option) 사실 best만 판별 가능
+	vector<vector<bool>> closed(size, vector<bool>(size, false));
+
+	// 부모 추적 용도
+	vector<vector<Pos>> parent(size, vector<Pos>(size, Pos(-1, -1)));
+
+	// 1) 예약 시스템 구현
+	// 2) 뒤늦게 더 좋은 경로가 발견될 수 있음 -> 예외 처리 필요!
+
+	// OpenList: 지금까지 "발견"된 목록
+	priority_queue<PQNode, vector<PQNode>, greater<PQNode>> pq;
+
+	{	// 시작 초기화
+		int32 g = 0;
+		int32 h = 10 * (abs(dest.y - start.y) + abs(dest.x - start.x)); // 목적지와의 거리
+
+		pq.push(PQNode(g + h, g, start));
+		best[start.y][start.x] = g + h;
+		parent[start.y][start.x] = start;
+	}
+
+	while (pq.empty() == false)
+	{
+		// 제일 좋은 후보를 찾는다
+		PQNode node = pq.top();
+		pq.pop();
+
+		// 동일한 좌표를 여러 경로로 찾아서
+		// 더 빠른 경로로 인해서 이미 방문(closed)된 경우 스킵
+		if (closed[node.pos.y][node.pos.x])
+			continue;
+
+		// 기껏 찾았더니만 나보다 더 우수한 후보가 있다?
+		// 사실 이 부분으로 다 판별돼서 위의 closed 이프문은 없어도 됨
+		// 그렇지만 개념 이해상으로 있는 편이 명시적이라 넣었다
+		if (best[node.pos.y][node.pos.x] < node.f)
+			continue;
+
+		// 방문
+		closed[node.pos.y][node.pos.x] = true;
+
+		// 목적지에 도착했으면 바로 종료
+		if (node.pos == dest)
+			break;
+
+		for (int32 dir = 0; dir < DIR_COUNT; dir++) 
+		{
+			Pos nextPos = node.pos + front[dir];
+
+			// 갈 수 있는 지역은 맞는지 확인
+			if (CanGo(nextPos) == false)
+				continue;
+			// 이미 더 갈 수 없으면 컨티뉴
+			if (closed[nextPos.y][nextPos.x])
+				continue;
+
+			int32 g = node.g + cost[dir];
+			int32 h = 10 * (abs(dest.y - nextPos.y) + abs(dest.x - nextPos.x));
+
+			// 다른 경로에서 더 빠른 길을 찾았으면 스킵
+			if (best[nextPos.y][nextPos.x] <= g + h)
+				continue;
+
+			// 예약 진행
+			best[nextPos.y][nextPos.x] = g + h;
+			pq.push(PQNode(g + h, g, nextPos));
+			parent[nextPos.y][nextPos.x] = node.pos;
+		}
+	}
+
+	_path.clear();
+	Pos pos = dest;
+
+	while (true)
+	{
+		_path.push_back(pos);
+
+		// 시작점인지 판별한다
+		if (pos == parent[pos.y][pos.x])
+			break;
+
+		pos = parent[pos.y][pos.x];
+	}
+
+	std::reverse(_path.begin(), _path.end());
+
 }
