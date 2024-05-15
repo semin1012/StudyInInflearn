@@ -31,39 +31,55 @@ public:
 	int _value = 0;
 };
 
-struct AddStruct
+class Job
 {
 public:
-	int operator()(int a, int b)
-	{
-		return a + b;
-	}
+	Job() {}
+	virtual ~Job() {}	// 부모는 가상함수 꼭 소멸자 해두고 시작
+						// 안 그러면 자식 소멸자 실행 안 됨
 };
 
-template<typename T>
-//using FuncType = int(*)(int, int);
-// T를 위처럼 하면 함수의 '포인터'만 들어갈 수가 있어서
-// main의 함수 객체인 func를 쓸 수가 없음
-int DoSomething(int a, int b, T func)
+class MoveJob : public Job
 {
-	return func(a, b);
-}
+public:
+	MoveJob(int x, int y) : x(x), y(y) {}
 
-template<class T>
-struct Greater	// 공식 문서 greater와 동일한 코드 
-{
-	bool operator()(const T& left, const T& right) const
+	void operator()()
 	{
-		return left > right;
+		cout << "Player Move" << endl;
 	}
+
+public:
+	int x;
+	int y;
+};
+
+class AttackJob : public Job
+{
+
 };
 
 int main()
 {
-	// 아래처럼 Functor를 사용할 때는 템플릿이랑 궁합이 잘 맞는다.
-	// 별다른 위험 없이 아다리가 잘 맞는다면 실행이 된다. 
-	AddStruct func;
-	DoSomething(10, 20, func);
+	// 클라: (10, 20) 좌표로 이동할래? (서버상에 요청했지만 순서가 밀릴 경우)
+	// 먼저 만들어 놓고 다른 것 처리 후에 함수 수행 -> 멀티스레드에 이점이 많아진다.
+	// 이 방식 자체가 선입선출이니까 큐가 좋다.
+	// 근데 엔씨에서는 연결리스트를 사용했다. 왜지?
+	// 연결리스트는 취소를 바로하지 않고 기억하고 있다가 진짜 사용해야 할때 삭제한다.
+	// 보스가 죽었으면 필살기 취소해야 함. 뺄 때 활용할 수 있도록 연결리스트로 구현한 것.
+	MoveJob* job = new MoveJob(10, 20);
 
-	priority_queue<int, vector<int>, Greater<int>> pq;
+	AttackJob* attackJob = new AttackJob();
+	
+
+	// ...
+	// 다른 작업 후에
+	// ... 
+
+	(*job)();
+	
+	// 부모가 둘 다 Job이라서 큐에 둘 다 넣을 수 있다.
+	queue<Job*> q;
+	q.push(job);
+	q.push(attackJob);
 }
