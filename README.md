@@ -1,2 +1,6 @@
 # StudyInInflearn
- 인프런 내 루카스 님의 강의 저장
+ Inflearn 강의를 공부하며 실습을 저장해 둡니다.
+
+
+## 이론 정리 노션
+https://metal-catamaran-8b6.notion.site/7513444b2bf24dc89286308c3b8fce64?pvs=4
