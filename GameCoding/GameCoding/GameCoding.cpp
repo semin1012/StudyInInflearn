@@ -3,6 +3,7 @@ using namespace std;
 #include <vector>
 #include <list>
 #include <queue>
+#include "List.h"
 
 int main()
 {
@@ -48,5 +49,14 @@ int main()
 	//	// 끝까지 다 왔다면 그것에 대한 처리
 	//}
 
+	List<int> myLi;
+	myLi.AddAtHead(10);
+	myLi.AddAtHead(20);
+	myLi.AddAtHead(30);
 
+	for (List<int>::Iterator myit = myLi.begin(); myit != myLi.end(); myit++)
+	{
+		int value = *myit;
+		cout << value << endl;
+	}
 }
