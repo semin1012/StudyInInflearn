@@ -4,64 +4,38 @@ using namespace std;
 #include <list>
 #include <queue>
 #include <map>
-
-// 이진 탐색 (binary search)
-
-vector<int> numbers;
-
-void BinarySearch(int N)
-{
-	int left = 0;
-	int right = numbers.size() - 1;
-
-	while (left <= right)
-	{
-		cout << "탐색 범위: " << left << " ~ " << right << endl;
-
-		int mid = (left + right) / 2;
-
-		if (N < numbers[mid])
-		{
-			cout << N << " < " << numbers[mid] << endl;
-			right = mid - 1;
-		}
-		else if (N > numbers[mid])
-		{
-			cout << N << " > " << numbers[mid] << endl;
-			left = mid + 1;
-		}
-		else
-		{
-			cout << "찾았음!" << N << " = " << numbers[mid] << endl;
-			break;
-		}
-	}
-}
+#include "BinarySearchTree.h"
 
 int main()
 {
-	// [1][8][15][23][32][44][56][63][81][91]
-	// 위의 데이터가 vector 형식일 때 원하는 값이 있는지 찾는 법?
-	// Q) 82?
-	// 하나하나씩 확인할 경우 -> O(N)
-	// 만약 정렬이 되어있다는 것을 안다면?
-	// 중간 값이 찾는 값보다 작은지, 큰지를 파악해서 업앤다운으로 "이진 탐색" 할 수 있음
-	// 이진 탐색: 반반씩 나누어서 서칭을 하는 느낌이다
-	//			  = O(logN)
-	// 정렬만 되어 있다면 아름다운 방식이다. 코테에 자주 나온다.
+	BinarySearchTree bst;
 
-	// left와 right가 존재, mid 값이 큰지 작은지 파악한다.
-	// mid보다 크다면 left = mid 로 변경하는 식으로 진행한다. 
+	bst.Insert(20);
+	bst.Insert(30);
+	bst.Insert(10);
 
-	numbers = { 1, 8, 15, 23, 32, 44, 56, 63, 81, 91 };
-	BinarySearch(81);
-
-	// Q1. 이것을 리스트로 한다면?
-	//  - vector는 임의 접근이 가능했기 때문에 이게 가능했음
-	//  - 리스트는 임의 접근이 불가능하기 때문에 바이너리 서치 불가능. 배열 특화적인 기법임.
-	// Q2. O(logN) 굉장히 빠른 것이다. 근데 왜 게임에서 한계가 있을까?
-	//  - 중간에 삽입/삭제가 너무나 힘들다(느리다). 벡터는 중간 삽입 삭제 어려움.
-	//  - 리스트는 삽입/삭제가 쉽지만 바이너리 서치가 안 됨. 
-	//  - 서칭하는 용도로만 사용하면 좋다. 그렇지만 대부분 상황에서는 삽입/삭제 필수적.
+	bst.Insert(25);
+	bst.Insert(26);
+	bst.Insert(40);
+	bst.Insert(50);
 	
+	bst.Delete(30);
+	bst.Print(bst.GetRootNode(), 10, 0);
 }
+
+// 이진 탐색은 벡터 기반이라 중간 삽입/삭제가 어렵다.
+// 삽입/삭제 용이하게 만든 것이 tree 구조다.
+
+// 이진 탐색 -> O(logN)이지만 정렬을 유지해야 하고 데이터 추가/삭제에 무리가 있다.
+// 이진 탐색 트리 
+//   - 추가/삭제 = O(logN) = 트리의 높이에 의존적. 빠르다.
+//	 - 그렇지만 치명적인 단점은?
+//	 - 균형이 안 맞는다. tree의 부모에 따라 한쪽으로만 값이 늘어난다.
+//	 - 트리의 높이에 의존적이기 때문에 한쪽으로만 쏠려서 높이가 높아질수록 느려질 수밖에 없음.
+//	 - 한쪽에만 쏠릴수록 결국 그냥 리스트에 불과하게 됨. = O(N)
+
+// 개선하고 싶으면?
+// - red-black tree 같은 것 
+// - 레드블랙은 힘드니까 random하게 만드는 것으로 가볍게 구현하기도 함 (프로그래밍 대회에 나갈 정도의 주제)
+// - 균형을 맞주는 게 red-black tree. 레드블랙의 표준방식이 map이다.
+// - 레드블랙은 구현하기 너무 힘들어서 이론적으로만 보고 지나갈 것이다. 
