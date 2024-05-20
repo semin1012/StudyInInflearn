@@ -5,101 +5,63 @@ using namespace std;
 #include <queue>
 #include <map>
 
-class ItemInfo
+// 이진 탐색 (binary search)
+
+vector<int> numbers;
+
+void BinarySearch(int N)
 {
-public:
-	
-};
+	int left = 0;
+	int right = numbers.size() - 1;
 
-class Iterator
-{
-public:
-	Iterator() : _data(nullptr) {}
-	Iterator(int* data) : _data(data) {}
-
-	bool operator==(const Iterator& other)
+	while (left <= right)
 	{
-		return _data == other._data;
+		cout << "탐색 범위: " << left << " ~ " << right << endl;
+
+		int mid = (left + right) / 2;
+
+		if (N < numbers[mid])
+		{
+			cout << N << " < " << numbers[mid] << endl;
+			right = mid - 1;
+		}
+		else if (N > numbers[mid])
+		{
+			cout << N << " > " << numbers[mid] << endl;
+			left = mid + 1;
+		}
+		else
+		{
+			cout << "찾았음!" << N << " = " << numbers[mid] << endl;
+			break;
+		}
 	}
-	
-	bool operator!=(const Iterator& other)
-	{
-		return _data != other._data;
-	}
+}
 
-	void operator++()
-	{
-		_data++;
-	}
-
-	int operator*()
-	{
-		return *_data;
-	}
-
-public:
-	int* _data;
-};
-
-class Inventory
-{
-public:
-	using iterator = Iterator;
-
-	Inventory() {}
-	~Inventory() {}
-
-	iterator begin() { return iterator(&_items[0]); }
-	iterator end() { return iterator(&_items[10]); }
-	
-public:
-	int _items[10] = { 1,2,3,4,5,6,7,8,9,10 };
-};
 int main()
 {
-	// ranged-based for(범위 기반 for문)
+	// [1][8][15][23][32][44][56][63][81][91]
+	// 위의 데이터가 vector 형식일 때 원하는 값이 있는지 찾는 법?
+	// Q) 82?
+	// 하나하나씩 확인할 경우 -> O(N)
+	// 만약 정렬이 되어있다는 것을 안다면?
+	// 중간 값이 찾는 값보다 작은지, 큰지를 파악해서 업앤다운으로 "이진 탐색" 할 수 있음
+	// 이진 탐색: 반반씩 나누어서 서칭을 하는 느낌이다
+	//			  = O(logN)
+	// 정렬만 되어 있다면 아름다운 방식이다. 코테에 자주 나온다.
 
-	vector<int> v{ 1,2,3,4,5 };
+	// left와 right가 존재, mid 값이 큰지 작은지 파악한다.
+	// mid보다 크다면 left = mid 로 변경하는 식으로 진행한다. 
 
-	for (int i = 0; i < v.size(); i++)
-	{
-		v[i] = 100;
-		cout << v[i] << endl;
-	}
+	numbers = { 1, 8, 15, 23, 32, 44, 56, 63, 81, 91 };
+	BinarySearch(81);
 
-	for (auto it = v.begin(); it != v.end(); it++)
-	{
-		*it = 100;
-		cout << *it << endl;
-	}
-
-	// C# foreach 와 비슷함
-	for (int& data : v)
-		// 참조를 하고 싶으면 &를 붙이면 된다. 
-	{
-		data = 100;
-		cout << data << endl;
-	}
-
-	// 위의 세 개가 같은 순회인데 세 번째 방식이 가독성 좋다.
-	// 무조건 좋다고 볼 수밖에 없다. 성능 어쩌고 하는 사람도 있으나 루키스님은 3이 무조건 좋다고 생각.
-
-
-	vector<ItemInfo> items;
-	for (ItemInfo& data : items)
-	{
-		// items가 굉장히 큰 상황이라면 &를 안 붙이면 공간 복사가 일어나기 때문에
-		// 메모리 낭비가 너무나 심각해질 수 있음
-		// 그래서 &를 붙이는 게 좋고,
-		// ItemInfo& 대신 auto&를 쓰는 것도 좋음.
-	}
-
-	Inventory inventory;
-	// iterator 구현하면 이것도 쓸 수 있다. 
-	for (const auto& item : inventory)
-	{
-		static int i = 0;
-		cout << "item[" << i << "]: " << item << endl;
-		i++;
-	}
+	// Q1. 이것을 리스트로 한다면?
+	//  - vector는 임의 접근이 가능했기 때문에 이게 가능했음
+	//  - 리스트는 임의 접근이 불가능하기 때문에 바이너리 서치 불가능. 배열 특화적인 기법임.
+	// Q2. O(logN) 굉장히 빠른 것이다. 근데 왜 게임에서 한계가 있을까?
+	//  - 중간에 삽입/삭제가 너무나 힘들다(느리다). 벡터는 중간 삽입 삭제 어려움.
+	//  - 리스트는 삽입/삭제가 쉽지만 바이너리 서치가 안 됨. 
+	//  - 서칭하는 용도로만 사용하면 좋다. 그렇지만 대부분 상황에서는 삽입/삭제 필수적.
+	
 }
