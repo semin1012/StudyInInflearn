@@ -4,38 +4,117 @@ using namespace std;
 #include <list>
 #include <queue>
 #include <map>
-#include "BinarySearchTree.h"
+#include <set>
+
+// map이랑 set이랑 짝꿍이다.
+// 키값만 있냐, 키와 밸류가 묶여 있냐 차이다.
+// 보통 키와 밸류가 묶여 있기 때문에 map으로 먼저 공부한다. 
+
+class Player
+{
+public:
+	Player() { }
+	Player(int id) : _id(id) {} 
+
+public:
+	int _id = 0;
+};
+
+// 만약 Player가 들고 있는 변수의 규모가 굉장히 커진다면,
+// Q) vector에 모든 Player 정보를 담는 것이 합당한가? vector로 관리해도 되는가?
+// -> 그래서 실제로는 참조로 들고 있는 것처럼 
+//	  vector<Player*> 이렇게 동적할당으로 들고 있는 경우가 많을 것이다.
+//	  이렇게 만들게 되면 성능은 좋아지는 대신 소멸까지 책임져야 한다. 
+
+template<typename T, typename U>
+struct Pair
+{
+	T first;
+	U second;
+};
+
+template<typename T, typename U>
+void MakePair(T first, U second)
+{
+	return std::pair<T, U>(first, second);
+}
 
 int main()
 {
-	BinarySearchTree bst;
+	vector<Player*> v;
+	v.push_back(new Player(100));
+	v.push_back(new Player(200));
+	v.push_back(new Player(300));
+	v.push_back(new Player(400));
+	v.push_back(new Player(500));
 
-	bst.Insert(20);
-	bst.Insert(30);
-	bst.Insert(10);
-
-	bst.Insert(25);
-	bst.Insert(26);
-	bst.Insert(40);
-	bst.Insert(50);
+	// vector로 관리하면 중간 삽입/삭제 같은 것에 한계가 있다. 
+	// map으로 관리하면 균형도 잘 맞을 뿐더러 왼쪽으로 가면 작고, 오른쪽으로 가면 크다.
+	// 업앤다운 놀이도 가능한 만능형 자료구조가 생긴 것이다. 
 	
-	bst.Delete(30);
-	bst.Print(bst.GetRootNode(), 10, 0);
+	// (key, value) 형식으로 저장 가능한 것이 map이다.
+	map<int, Player*> m;
+	
+	// 추가
+	// 찾기
+	// 삭제
+	// 순회
+
+	// 추가?
+	Pair<int, Player*> p;
+	int key = p.first;
+	Player* value = p.second;
+
+	// 벡터로 있는 정보를 추가한다면
+	for (Player* player : v)
+	{
+		int key = player->_id;
+		Player* data = player;
+		
+		//m.insert(pair<int, Player*>(key, value));
+		// 만약 위의 코드가 귀찮다면?
+
+		MakePair(key, value); // = MakePair<int, Player*>(key, value);
+		// auto랑 template은 비슷한 느낌이다.
+		// auto, template은 컴파일러가 유추를 해줘서 형식 생략 가능하다. 
+		// 이 코드를 공식에서도 지원을 한다.
+		m.insert(make_pair(key, value));
+		// make_pair가 공식에서 지원하는 함수.
+	}
+
+	for (Player* player : v)
+	{
+		// 결국 간단하게 추가하고 싶으면 이렇게 쓰면 됨. 
+		// 위의 for문과 완전히 동일
+		m.insert(make_pair(key, value));
+		
+		//m[player->_id] = player;
+		// 위처럼 넣어도 되긴 하는데 덮어쓰는 문제랑 자동적 만들어지는 문제에 엮여있어서
+		// 나중에 언급하기로 하고 첫 번째 방식만 언급하기로 한다. 
+	}
+
+	
+	// 순회, vector는 순차적으로 찾는 형식이었음
+	// map은 왼쪽으로 가냐, 오른쪽으로 가냐 이진탐색으로 효율적 탐색 가능.
+	auto it = m.find(300);	// iterator를 뱉는다.
+	
+	// 사용법 1
+	auto whoami = *it;
+	whoami.first;
+	whoami.second;
+	
+	// 사용법 2
+	it = m.find(300);	// O(logN), 이진탐색과 동일하다. 
+	if (it != m.end())
+	{
+		int key = it->first;
+		Player* value = it->second;
+	}
+	else
+	{
+		cout << "없음" << endl;
+	}
+
+
+
 }
-
-// 이진 탐색은 벡터 기반이라 중간 삽입/삭제가 어렵다.
-// 삽입/삭제 용이하게 만든 것이 tree 구조다.
-
-// 이진 탐색 -> O(logN)이지만 정렬을 유지해야 하고 데이터 추가/삭제에 무리가 있다.
-// 이진 탐색 트리 
-//   - 추가/삭제 = O(logN) = 트리의 높이에 의존적. 빠르다.
-//	 - 그렇지만 치명적인 단점은?
-//	 - 균형이 안 맞는다. tree의 부모에 따라 한쪽으로만 값이 늘어난다.
-//	 - 트리의 높이에 의존적이기 때문에 한쪽으로만 쏠려서 높이가 높아질수록 느려질 수밖에 없음.
-//	 - 한쪽에만 쏠릴수록 결국 그냥 리스트에 불과하게 됨. = O(N)
-
-// 개선하고 싶으면?
-// - red-black tree 같은 것 
-// - 레드블랙은 힘드니까 random하게 만드는 것으로 가볍게 구현하기도 함 (프로그래밍 대회에 나갈 정도의 주제)
-// - 균형을 맞주는 게 red-black tree. 레드블랙의 표준방식이 map이다.
-// - 레드블랙은 구현하기 너무 힘들어서 이론적으로만 보고 지나갈 것이다. 

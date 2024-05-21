@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\00.Project\\StudyInInflearn\\GameCoding\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\BinarySearchTree.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\BinarySearchTree.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Types.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -80,24 +80,23 @@
         },
         {
           "DockedWidth": 201,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "BinarySearchTree.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.cpp",
               "RelativeDocumentMoniker": "GameCoding\\BinarySearchTree.cpp",
               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.cpp",
               "RelativeToolTip": "GameCoding\\BinarySearchTree.cpp",
-              "ViewState": "AQIAAIYAAAAAAAAAAADwv5gAAAAoAAAA",
+              "ViewState": "AQIAAG4AAAAAAAAAAADwv6EAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-05-20T11:48:03.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-20T11:48:03.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "BinarySearchTree.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.h",
               "RelativeDocumentMoniker": "GameCoding\\BinarySearchTree.h",
@@ -105,18 +104,17 @@
               "RelativeToolTip": "GameCoding\\BinarySearchTree.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-20T11:46:45.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-20T11:46:45.726Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "GameCoding.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeDocumentMoniker": "GameCoding\\GameCoding.cpp",
               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeToolTip": "GameCoding\\GameCoding.cpp",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAACgAAAApAAAA",
+              "ViewState": "AQIAAFQAAAAAAAAAAADwv3gAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-05-15T11:07:00.342Z",
               "EditorCaption": ""
