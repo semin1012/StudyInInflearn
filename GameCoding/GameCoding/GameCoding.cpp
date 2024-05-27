@@ -7,161 +7,96 @@ using namespace std;
 #include <unordered_map>
 #include <algorithm>
 
-enum class ItemType
+// 가장 기본적인 정렬에 대해 알아볼 것
+
+// 1 5 3 4 2
+// 1 5 3 4 2
+// 1 3 5 4 2
+// 1 3 4 5 2
+// 1 3 4 2 5
+// 2개씩 비교해서 하나씩 뒤로 가는 것
+// 가장 큰 숫자가 오른쪽으로 간다. 
+// 이걸 반복
+void BubbleSort(vector<int>& v)
 {
-	None,
-	Armor,
-	Weapon, 
-	Jewelry,
-	Consumable
-};
+	const int n = v.size();
 
-enum class Rarity
-{
-	Common,
-	Rare,
-	Unique
-};
-
-class Item
-{
-public:
-	Item() { }
-	Item(int itemId, Rarity rarity, ItemType type) : _itemId(itemId), _rarity(rarity), _type(type) { }
-
-public:
-	int _itemId = 0;
-	Rarity _rarity = Rarity::Common;
-	ItemType _type = ItemType::None;
-};
-
-//struct MakeResetHpJob
-//{
-//	void operator()()
-//	{
-//
-//	}
-//
-//	int _hp = 200;
-//}
-// 위의 이 클래스 함수를 간단하게 람다로 표현 가능 
-
-class Knight
-{
-public:
-	auto MakeResetHpJob()
+	for (int i = 0; i < n - 1; i++)
 	{
-		auto job = [=]()
+		for (int j = 0; j < n - 1 - i; j++)
+		{
+			if (v[j] > v[j + 1])
 			{
-				_hp = 200;
-			};
-
-		return job;
+				int temp = v[j];
+				v[j] = v[j + 1];
+				v[j + 1] = temp;
+				//swap(v[j], v[j + 1]);
+			}
+		}
 	}
+}
 
-public:
-	int _hp = 100;
-};
+
+// 1 5 3 4 2
+// 제일 작은 애를 하나씩 스캔해서 위치 선택함
+// 1 ?
+// 1 2 ?
+// 1 2 3 ?
+void SelectionSort(vector<int>& v)
+{
+	const int n = v.size();
+
+	for (int i = 0; i < n - 1; i++)
+	{
+		int bestIdx = i; 
+		
+		for (int j = i + 1; j < n; j++)
+		{
+			if (v[j] < v[bestIdx])
+				bestIdx = j;
+		}
+
+		if ( i != bestIdx )
+			swap(v[i], v[bestIdx]);
+	}
+}
+
+// O(NlogN), 데이터가 많을수록 얘가 더 빨라진다. 보통 괜찮은 소트가 다 NlogN이다.
+void HeapSort(vector<int>& v)
+// 우선순위 큐의 힙과 같다, 부모가 나보다 더 크면 도장깨기
+{
+	priority_queue<int, vector<int>, greater<int>> pq;
+
+	// O(NlogN), logN을 N번 한다
+	for (int num : v)
+		pq.push(num);	// 우선순위 큐에 다 넣어주기, LogN
+
+	// O(NlogN), N개의 데이터마다 logN이 걸려서
+	while (pq.empty() == false)
+	{
+		v.push_back(pq.top()); // O(1)
+		pq.pop();	// O(logN)
+	}	// 데이터가 있는 동안 작은 순서로 꺼내오게 될 테니까 하나씩 꺼내기
+}
+
+
 
 int main()
 {
-	// lambda
-	// 기능적으로 새로운 것은 아니지만 
-	// 편리하게 작업할 수 있게 되었다. 서버를 다룰 때도 유용! 나중에도 많이 쓰게 될 것.
+	vector<int> v{ 1, 5, 3, 4, 2 };
 
-	vector<Item> v;
-	v.push_back(Item(1, Rarity::Common, ItemType::Weapon));
-	v.push_back(Item(2, Rarity::Common, ItemType::Armor));
-	v.push_back(Item(3, Rarity::Rare, ItemType::Jewelry));
-	v.push_back(Item(4, Rarity::Unique, ItemType::Weapon));
+	//std::sort(v.begin(), v.end());
+	// 이것만 알면 되긴 하는데 면접에서 많이 나온다.
+	// 간단하게 테스트할 수 있기 때문에...
 
-	{
-		struct IsUniqueItem
-		{
-			bool operator()(Item& item)
-			{
-				return item._rarity == Rarity::Unique;
-			}
-		}; // 기존에는 이렇게 함수를 만들어서 사용했다.
-		// 이제는 람다를 사용할 것!
-		
-		// 람다
-		// [](){} < 이것부터 그려주고 시작한다.
-		std::find_if(v.begin(), v.end(), [](Item& item) {return item._rarity == Rarity::Unique; });
+	BubbleSort(v);
+	// 시간복잡도: O(N^2) 굉장히 느리다! 현실성이 없을 정도
 
-		auto isUniqueLambda = [](Item& item) { return item._rarity == Rarity::Unique;  }; // 이렇게 받아서 사용해도 된다
-		//std::find_if(v.begin(), v.end(), isUniqueLambda);
-		// 일회성 함수를 만들 수 있어서 편리하다
+	SelectionSort(v);
+	// 시간복잡도: O(N^2) 얘도 느리다 
+	// 이제부터 현실적인 애들 보자
 
-		auto l = [](Item& item) -> int // boolean 타입을 int로 바꾸는 문법
-		{ 
-				return item._rarity == Rarity::Unique; 
-		}; 
-
-		
-		{
-			struct IsWantedItem
-			{
-				IsWantedItem(int& wantedId) : wantedId(wantedId) { } // 참조
-
-				bool operator()(Item& item)
-				{
-					return item._itemId == wantedId;
-				}
-
-				int& wantedId;	// 참조
-			};
-
-			//IsWantedItem isWantedItem;
-			//isWantedItem.wantedId = 2;	// 복사 방식
-
-			int wantedId = 2;
-
-			//std::find_if(v.begin(), v.end(), isWantedItem);
-			// 이거 람다로 만들 수 있다.
-
-			// 1. (람다에서도) = 복사 방식, 모든 애들을 다 복사 방식으로 넘긴다
-			//	  (람다에서도) & 참조 방식, 모든 애들을 다 참조 방식으로 넘긴다
-			IsWantedItem isWantedItem(wantedId);
-			// 참조니까 원본이랑 같은 애를 가르키고 있다	
-
-			[&](Item& item) // 이렇게 만들면 참조인 거임! 편리
-			// 이때는 모든 애들이 참조(혹은 복사)됨
-			{
-				return item._itemId == wantedId;
-			};
-
-			[&wantedId](Item& item) // 이렇게 만들면 참조인 거임! 편리
-			// 2. 이렇게 하면 wantedId만 참조(혹은 복사)를 넘김, 이걸 더 권장함
-			//	  단일 변수마다 캡처 모드를 지정할 수 있다.
-			{
-				return item._itemId == wantedId;
-			};
-		}
-	}
-
-	// 람다가 위험한 상황은?
-	// 주소값이 유효해야만 의미가 있는 건데 만약 주소가 날라갔다면? 문제 발생 소지 충분
-	// 나중에 객체가 사라져서 피보는 경우 많다. 참조값 가지고 있을 때는 이런 경우 유의해야 한다.
-	//[wantedId, wantedId1, wantedId2, , , ,] // 이런식으로 여러개 지정 가능하다. 이렇게 지정하는 게 더 안전할 것.
-	
-
-	Knight* k = new Knight();
-	k->_hp = 100;
-
-	auto job = k->MakeResetHpJob(); // hp를 200으로 초기화
-	delete k;
-	// MakeResetHpJob은 _hp를 참조해서 덮어씌우는 작업이라 
-	// 문제가 있다. delete로 날라간 메모리를 건들이려고 한다. 
-	// _hp 자체가 this->_hp라서 주소를 복사하는 게 참조값을 넘기는 것과 같게 된다.
-	// 그래서 모든 것을 [=]로 복사한다고 해도 결국 참조값 넘기는 것과 같아질 수 있으니 주의할 것.
-	job();
-
-	[/*캡처모드*/](/*인자*/)
-	{
-		// 내용물
-	};
-
-	// std::find_if(v.begin(), v.end(), []() {});	// 이런 형태 자주 쓸 것
-	// 처음에는 어렵지만 굉장히 편리하고 장점이 많다.	
+	HeapSort(v);
+	// 시간복잡도: O(logN)
+	// 
 }
