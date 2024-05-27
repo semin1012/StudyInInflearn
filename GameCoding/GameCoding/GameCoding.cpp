@@ -7,175 +7,161 @@ using namespace std;
 #include <unordered_map>
 #include <algorithm>
 
-// find, find_if 자주 쓴다.
-// count, count_if 자주 쓴다.
-// all_of, any_of, none_of 종종 쓴다.
-// for_each 많이 쓴다.
-// remove, remove_if도 꽤 쓴다.
-
-namespace Rookiss
+enum class ItemType
 {
-	void Test()
+	None,
+	Armor,
+	Weapon, 
+	Jewelry,
+	Consumable
+};
+
+enum class Rarity
+{
+	Common,
+	Rare,
+	Unique
+};
+
+class Item
+{
+public:
+	Item() { }
+	Item(int itemId, Rarity rarity, ItemType type) : _itemId(itemId), _rarity(rarity), _type(type) { }
+
+public:
+	int _itemId = 0;
+	Rarity _rarity = Rarity::Common;
+	ItemType _type = ItemType::None;
+};
+
+//struct MakeResetHpJob
+//{
+//	void operator()()
+//	{
+//
+//	}
+//
+//	int _hp = 200;
+//}
+// 위의 이 클래스 함수를 간단하게 람다로 표현 가능 
+
+class Knight
+{
+public:
+	auto MakeResetHpJob()
 	{
+		auto job = [=]()
+			{
+				_hp = 200;
+			};
 
+		return job;
 	}
-}
 
-
+public:
+	int _hp = 100;
+};
 
 int main()
 {
-	Rookiss::Test();
-	// 이름은 namespace라서 ::을 쓰게 되는 것이다. 
+	// lambda
+	// 기능적으로 새로운 것은 아니지만 
+	// 편리하게 작업할 수 있게 되었다. 서버를 다룰 때도 유용! 나중에도 많이 쓰게 될 것.
 
-	vector<int> v;
+	vector<Item> v;
+	v.push_back(Item(1, Rarity::Common, ItemType::Weapon));
+	v.push_back(Item(2, Rarity::Common, ItemType::Armor));
+	v.push_back(Item(3, Rarity::Rare, ItemType::Jewelry));
+	v.push_back(Item(4, Rarity::Unique, ItemType::Weapon));
 
-	for (int i = 0; i < 100; i++)
 	{
-		int n = rand() % 100;
-		v.push_back(n);
-	}
-
-	// Q) 특정 숫자가 있는지?
-	{
-		int number = 50;
-
-		bool found = false;
-		vector<int>::iterator it;
-
-		for (auto it = v.begin(); it != v.end(); it++)
+		struct IsUniqueItem
 		{
-			int value = *it;
-			if (value == number)
+			bool operator()(Item& item)
 			{
-				found = true;
-				break;
+				return item._rarity == Rarity::Unique;
 			}
-		}
-		// 이렇게 해도 되고 현업에서도 쓰이는 코드지만
-		// 길이가 너무 길고 다 읽어야만 기능을 눈치 챌 수가 있다.
+		}; // 기존에는 이렇게 함수를 만들어서 사용했다.
+		// 이제는 람다를 사용할 것!
+		
+		// 람다
+		// [](){} < 이것부터 그려주고 시작한다.
+		std::find_if(v.begin(), v.end(), [](Item& item) {return item._rarity == Rarity::Unique; });
 
-		auto it = std::find(v.begin(), v.end(), number);
-		if (it == v.end())
+		auto isUniqueLambda = [](Item& item) { return item._rarity == Rarity::Unique;  }; // 이렇게 받아서 사용해도 된다
+		//std::find_if(v.begin(), v.end(), isUniqueLambda);
+		// 일회성 함수를 만들 수 있어서 편리하다
+
+		auto l = [](Item& item) -> int // boolean 타입을 int로 바꾸는 문법
+		{ 
+				return item._rarity == Rarity::Unique; 
+		}; 
+
+		
 		{
-			cout << "못 찾음" << endl;
-		}
-		else
-		{
-			cout << "찾음" << endl;
-		}
-		// 성능은 완전히 똑같은데 가독성이 더 좋아진다.
-		// 순전히 가독성에만 이점이 있는 것이다. 
-		// 너무 특이한 함수는 쓰지 않는 게 좋다.
-	}
-
-	// Q2) 11로 나뉘는 숫자가 있는지 찾고 싶다면?
-	{
-		int div = 11;
-
-		vector<int>::iterator it;
-
-		for (it = v.begin(); it != v.end(); it++)
-		{
-			int value = *it;
-			if (value % div == 0)
+			struct IsWantedItem
 			{
-				break;
-			}
-		}
-		// 안에 것만 바뀜
+				IsWantedItem(int& wantedId) : wantedId(wantedId) { } // 참조
 
-		struct CanDivideBy11	// 나중에 람다를 배우면 람다로 하면 된다.
-		{
-			bool operator()(int n)
+				bool operator()(Item& item)
+				{
+					return item._itemId == wantedId;
+				}
+
+				int& wantedId;	// 참조
+			};
+
+			//IsWantedItem isWantedItem;
+			//isWantedItem.wantedId = 2;	// 복사 방식
+
+			int wantedId = 2;
+
+			//std::find_if(v.begin(), v.end(), isWantedItem);
+			// 이거 람다로 만들 수 있다.
+
+			// 1. (람다에서도) = 복사 방식, 모든 애들을 다 복사 방식으로 넘긴다
+			//	  (람다에서도) & 참조 방식, 모든 애들을 다 참조 방식으로 넘긴다
+			IsWantedItem isWantedItem(wantedId);
+			// 참조니까 원본이랑 같은 애를 가르키고 있다	
+
+			[&](Item& item) // 이렇게 만들면 참조인 거임! 편리
+			// 이때는 모든 애들이 참조(혹은 복사)됨
 			{
-				return n % 11 == 0;
-			}
-		};
+				return item._itemId == wantedId;
+			};
 
-		auto it = std::find_if(v.begin(), v.end(), CanDivideBy11());
-		if (it == v.end())
-		{
-			cout << "못 찾음" << endl;
-		}
-		else
-		{
-			cout << "찾음" << endl;
+			[&wantedId](Item& item) // 이렇게 만들면 참조인 거임! 편리
+			// 2. 이렇게 하면 wantedId만 참조(혹은 복사)를 넘김, 이걸 더 권장함
+			//	  단일 변수마다 캡처 모드를 지정할 수 있다.
+			{
+				return item._itemId == wantedId;
+			};
 		}
 	}
 
-	// Q) 홀수인 숫자 개수는?
+	// 람다가 위험한 상황은?
+	// 주소값이 유효해야만 의미가 있는 건데 만약 주소가 날라갔다면? 문제 발생 소지 충분
+	// 나중에 객체가 사라져서 피보는 경우 많다. 참조값 가지고 있을 때는 이런 경우 유의해야 한다.
+	//[wantedId, wantedId1, wantedId2, , , ,] // 이런식으로 여러개 지정 가능하다. 이렇게 지정하는 게 더 안전할 것.
+	
+
+	Knight* k = new Knight();
+	k->_hp = 100;
+
+	auto job = k->MakeResetHpJob(); // hp를 200으로 초기화
+	delete k;
+	// MakeResetHpJob은 _hp를 참조해서 덮어씌우는 작업이라 
+	// 문제가 있다. delete로 날라간 메모리를 건들이려고 한다. 
+	// _hp 자체가 this->_hp라서 주소를 복사하는 게 참조값을 넘기는 것과 같게 된다.
+	// 그래서 모든 것을 [=]로 복사한다고 해도 결국 참조값 넘기는 것과 같아질 수 있으니 주의할 것.
+	job();
+
+	[/*캡처모드*/](/*인자*/)
 	{
-		int count = 0;
-		for (auto it = v.begin(); it != v.end(); it++)
-		{
-			if (*it % 2 != 0)
-				count++;
-		}
+		// 내용물
+	};
 
-		struct IsOdd
-		{
-			bool operator()(int n)
-			{
-				return n % 2 != 0;
-			}
-		};
-
-		int n = std::count_if(v.begin(), v.end(), IsOdd());
-
-		// 모든 데이터가 홀수입니까?
-		bool b1 = std::all_of(v.begin(), v.end(), IsOdd());
-		// 홀수인 데이터가 하나라도 있습니까?
-		bool b1 = std::any_of(v.begin(), v.end(), IsOdd());
-		// 모든 데이터가 홀수가 아닙니까?
-		bool b1 = std::none_of(v.begin(), v.end(), IsOdd());
-	}
-
-	// Q) 벡터에 있는 모든 숫자들에 3을 곱해 주세요
-	{
-		for (int i = 0; i < v.size(); i++)
-		{
-			v[i] *= 3;
-		}
-
-		struct MultiplyBy3
-		{
-			void operator()(int& n)
-			{
-				n *= 3;
-			}
-		};
-
-		std::for_each(v.begin(), v.end(), MultiplyBy3());
-		// 상대적으로 활용 빈도가 높다. 기왕이면 만들어진 것을 활용하는 게 좋으니 사용.
-	}
-
-	// Q) 홀수인 데이터를 일괄 삭제
-	{
-		vector<int> v = { 1, 4, 3, 5, 8, 2 };
-
-		/*for (auto it = v.begin(); it != v.end(); )
-		{
-			if (*it % 2 != 0)
-				it = v.erase(it);
-			else
-				it++;
-		}*/
-
-		struct IsOdd
-		{
-			bool operator()(int n)
-			{
-				return n % 2 != 0;
-			}
-		};
-
-		// 1 4 3 5 8 2 여기에서 홀수 삭제하기
-		vector<int>::iterator it = std::remove_if(v.begin(), v.end(), IsOdd());
-		// 이거 돌리면 4 8 2 5 8 2 < 이렇게 된다
-		// iterator가 5를 가리키고 있음. 그래서 뒷부분 삭제하라고 하는 거.
-		v.erase(it, v.end());
-		// 삭제해줘야 한다.
-		// remove_if 사용할 때는 꼭 주의해야 한다.
-	}
+	// std::find_if(v.begin(), v.end(), []() {});	// 이런 형태 자주 쓸 것
+	// 처음에는 어렵지만 굉장히 편리하고 장점이 많다.	
 }
