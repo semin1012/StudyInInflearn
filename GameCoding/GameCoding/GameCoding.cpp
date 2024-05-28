@@ -155,6 +155,42 @@ void MergeSort(vector<int>& v, int left, int right)
 	MergeResult(v, left, mid, right);
 }
 
+int Partition(vector<int>& v, int left, int right)
+{
+	int pivot = v[left];	// 숫자
+	int low = left + 1;		// index
+	int high = right;		// index
+
+	while (low <= high)
+	{
+		while (low <= right && pivot >= v[low])
+			low++;
+
+		while (high >= left + 1 && pivot <= v[high])
+			high--;
+
+		if (low < high)
+			swap(v[low], v[high]); 
+	}
+
+	swap(v[left], v[high]);
+	return high;
+}
+
+// Partition의 시간복잡도: O(N)
+// 평균적으로 QuickSort 시간복잡도: O(NlogN)
+// 그러나 계속 극단적으로 피벗 값이 잘리는 경우 O(N^2)인데 평균은 NlogN이라고 보면 됨.
+// 평균의 경우 나머지 애들보다 빠르다. 
+void QuickSort(vector<int>& v, int left, int right)
+{	// 얘가 제일 빠르다. 얘만 알고 있어도 된다.
+	if (left > right)
+		return;
+
+	int pivot = Partition(v, left, right);
+	QuickSort(v, left, pivot - 1);
+	QuickSort(v, pivot + 1, right);
+}
+
 int main()
 {
 	vector<int> v{ 1, 5, 3, 4, 2 };
@@ -171,7 +207,20 @@ int main()
 	// 이제부터 현실적인 애들 보자
 
 	HeapSort(v);
-	// 시간복잡도: O(logN)
+	// 시간복잡도: O(NlogN)
 	
 	MergeSort(v, 0, v.size()-1);
+	// 시간복잡도: O(NlogN)
+
+	QuickSort(v, 0, v.size() - 1);
+	// 시간복잡도: O(logN)
+	// 정렬을 하면서 나누는 느낌이다 
+
+	// Sorting의 시간복잡도는? - 보통 애들의 시간복잡도는 다 O(NlogN)이다.
+	// O(logN) > O(NlogN) > O(N^2)
+	// sorting은 남발하지 않는 게 좋지만 한 번쯤 쓰는 건 괜춘
+	// 게임 만들 때 소팅을 쓸 일이 있을까?
+	// ex) 인벤토리 정렬.
+	// 코드까지 완벽하게 소팅을 구현할 필요는 없지만
+	// 대략적으로 어떻게 돌아가는지 정도는 알아두는 게 좋다. 
 }
