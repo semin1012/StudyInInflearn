@@ -80,6 +80,80 @@ void HeapSort(vector<int>& v)
 }
 
 
+// 병합정렬(분할 정복 사용 (Divide and Conquer)
+// - 분할(Divide)		문제를 더 단순하게 분할한다
+// - 정복(Conquer)		분할된 문제를 해결한다
+// - 결합(Combine)		결과를 취합하여 마무리한다
+
+// [3][k][7][2][j][4][8][9]					<< 8개*1
+// [3][k][7][2] | [j][4][8][9]				<< 4개*2
+// [3][k] | [7][2] | [j][4] | [8][9]		<< 2개*4
+// [3] | [k] | [7] | [2] | [j] | [4] | [8] | [9] << 1개*8
+// [3][k]  [2][7]  [4][j]  [8][9]			<< 2개*4
+// [2][3][7][k]  [4][8][9][j]
+// 정렬된 애들끼리 합치는 건 쉽다는 아이디어에서 출발한다.
+// 정렬 뿐만 아니라 다양한 상황에서 사용할 수 있다. 
+
+void MergeResult(vector<int>& v, int left, int mid, int right)
+{
+	int leftIdx = left;
+	int rightIdx = mid + 1;	// right 인덱스의 시작은 mid+1부터 시작
+
+	vector<int> temp;
+	
+	while (leftIdx <= mid && rightIdx <= right)
+	{	// 둘 다 아직 끝나지 않고 데이터가 남아있을 때까지
+		if (v[leftIdx] <= v[rightIdx])
+		{	// 승리한 숫자 넣어주기
+			temp.push_back(v[leftIdx]);
+			leftIdx++;
+		}
+		else
+		{
+			temp.push_back(v[rightIdx]);
+			rightIdx++;
+		}
+	}
+
+	if (leftIdx > mid)
+	{	// leftIdx가 mid보다 커졌다면 left쪽에 있는 애들이 다 이겼다는 말
+		while (rightIdx <= right)
+		{
+			temp.push_back(v[rightIdx]);
+			rightIdx++;
+			// 나머지 right 애들 넣어준다
+		}
+	}
+	else
+	{
+		temp.push_back(v[leftIdx]);
+		leftIdx++;
+	}
+
+	for (int i = 0; i < temp.size(); i++)
+	{
+		v[left + i] = temp[i];
+		// temp의 내용을 원본 벡터에 덮어씌워 주기
+	}
+}
+
+// 반반씩 나누어 계속 계산하는 시간복잡도 = O(logN)
+// MergeResult 시간복잡도 = O(N)
+// 결론 - O(logN) + O(N) = O(NlogN)
+// 분할정복은 반반씩 나누어서 다른 cpu가 처리해도 결과는 똑같음
+// 병렬 처리가 가능하기 때문에 분할정복이 더 유용할 때가 많다. 
+void MergeSort(vector<int>& v, int left, int right)
+{// left, right 까지의 범위까지 담당한다는 의미
+	
+	if (left >= right)
+		return;
+
+	int mid = (left + right) / 2;
+	MergeSort(v, left, mid);
+	MergeSort(v, mid + 1, right);
+	
+	MergeResult(v, left, mid, right);
+}
 
 int main()
 {
@@ -98,5 +172,6 @@ int main()
 
 	HeapSort(v);
 	// 시간복잡도: O(logN)
-	// 
+	
+	MergeSort(v, 0, v.size()-1);
 }
