@@ -7,69 +7,140 @@ using namespace std;
 #include <unordered_map>
 #include <algorithm>
 
+class Pet
+{
+public:
+};
+
+class Knight
+{
+public:
+	Knight()
+	{
+
+	}
+
+	~Knight()
+	{
+		if (_pet)
+		{
+			delete _pet;
+		}
+	}
+
+	// 복사 생성자, 컴파일러가 기본으로 처리해주던 부분
+	Knight(const Knight& knight)
+	{
+
+	}
+
+	// 복사 대입 연산자, 컴파일러가 기본으로 처리해주던 부분
+	void operator=(const Knight& knight)
+	{
+		_hp = knight._hp;
+		// _pet = knight._pet;
+		// 문제가 있다. 복사될 때 별도의 펫을 만들어야 하는데
+		// 동일한 원본 펫을 가르키게 된다. 
+
+		if (knight._pet)
+			_pet = new Pet(*knight._pet);
+		// 이렇게 만들어야 새로운 펫을 가지게 된다. 
+		// 문제는 해결되지만 복사 비용이 적지 않게 되었다.
+		// 펫을 만들때 드는 비용이 크다면 복사할 때도 크게 된다. 
+	}
+
+	// 이동 생성자, 컴파일러가 기본으로 처리해주던 부분
+	Knight(Knight&& knight)
+	{
+		_hp = knight._hp;
+		_pet = knight._pet;
+		knight._pet = nullptr;
+		// 상대방에게서 소유권을 이전한 개념이다.
+	}
+	
+	// 이동 대입 연산자, 컴파일러가 기본으로 처리해주던 부분
+	void operator=(Knight&& knight)
+	{
+		_hp = knight._hp;
+		_pet = knight._pet;
+		knight._pet = nullptr;
+		// 상대방에게서 소유권을 이전한 개념이다.
+	}
+
+	// 복사랑 이동이랑 별 차이가 없으면 상관이 없지만
+	// 둘의 차이가 아주 큰 상황을 불러올 경우 아주 주의해야 한다.
+	// 밑줄 없애고 싶은 ㄴ경우 noexcept 붙이면 된다. 사소한 부분이라 스킵
+
+
+public:
+	int _hp = 0;
+	Pet* _pet = nullptr;
+};
+
+void TestKnight_Copy(Knight knight)
+{
+	// 이렇게 바꾸어도 원본에는 영향이 없다.
+	knight._hp = 100;
+}
+
+// 원본을 넘겨줄 테니... 건드려도 된다는 뜻
+void TestKnight_LValueRef(Knight& knight)
+{
+	knight._hp = 100;
+}
+
+// 원본을 넘겨줄 테니... 건들 순 없어
+void TestKnight_ConstLValueRef(const Knight& knight)
+{
+	// &&가 참조의 참조라는 뜻이 아니라는 것 알아두면 된다.
+	// &&는 오른값 참조라는 것이다. 
+}
+
+// 오른값 참조라는 새로운 것
+// 원본 넘겨줄 테니... 더이상 활용하지 않을테니 맘대로 해라!
+void TestKnight_RValueRef(Knight&& knight)
+{
+
+}
+
 int main()
 {
-	const char* test = "aaa세민";
-	cout << test << endl;
-	// 한글로 출력을 해도 제대로 출력이 될까?
-	// 사용환경에 따라 다르기도 할 것이다. 일단 출력은 됨.
-	// char는 1바이트다. 1바이트에서 표현될 수 있는 숫자가 많지 않다.
-	// char(1) = 0~255 < 여기에 어떻게 한글까지 표현할 수가 있지?
+	// C++11: auto, lambda, rvalue-ref(오른쪽 참조)가 추가됨
+	// rvalue-ref는 아예 없던 기능이 새로 추가된 것임
+	// 아주 편리해졌고, C++11의 기능 중 1순위다
+
+	// 왼값(l-value) vs 오른값(r-value)
+	// l-value : 단일식을 넘어서 계속 지속되는 개체
+	// r-value : l-value가 아닌 나머지
+
+	int a = 3;
+	// a는 l-value, 3은 r-value
+
+	Knight k1;
+	Knight k2;
+	k1._pet = new Pet();
+	// Knight k2 = k1 // 이거면 복사 생성자 
+
+	k2 = k1; // 복사 대입 연산자
+
 	
-	char ch = 'A'; // A = 65번
-	// 1) ASCII 코드 -> 영어만 고려함
-	// 7bit (0~127) char의 반이 다 영어임
-	// 어떻게 한글이 그 안에 들 수 있는가
-
-	// ASCII 코드가 태초고, 이후에 발전해왔다.
-	// 2) ANSI << 동일한 키코드값이 동일한 문자라는 보장이 없다
-	// ASCII + 각국 언어별로 128개 넣음
-	// 128개만으로 한글, 중국어 등을 다 표현할 수 없다. 뚫뙑 같은 거 다 포함하면 한국어도 128 넘음
-	// 한국어는 CP949라는 포멧을 사용. 모든 문자들에 대해 번호가 매겨짐.
-	setlocale(LC_ALL, "");
-	cout << "LC_ALL: " << setlocale(LC_ALL, NULL) << endl;
-	// 출력: LC_ALL: Korean_Korea.949
-	// 윈도우가 한국어라서 이 렇게 나온다.
-	// 영어는 2 글자가 1바이트인데, 한국어는 1글자가 1바이트.
+	TestKnight_Copy(k1); // 통째로 복사됨. 객체 크기가 크면 클수록 비효율적.
+	TestKnight_LValueRef(k1); // 왼값 참조. 
+	// TestKnight_LValueRef(Knight());	// 이러면 에러 나온다.
+	// 비const 참조에 대한 초기값은 왼값이어야만 한다고 뜸.
+	TestKnight_ConstLValueRef(Knight());
+	// const 붙이니까 실행이 된다. 그렇지만 knight 수정 불가능.
+	// 오른값은 const 붙여야 넘겨준다. 근데 안 바꿀 개체를 넘기는 행위 자체가 이상함.
+	// 그래서 일단 오류를 내뱉는 방식으로 한번 경고를 준 것임.
+	TestKnight_RValueRef(Knight());
+	// k1을 더이상 활용하지 않아서 넘기고 싶다면? 이렇게 쓸 수 있다.
+	TestKnight_RValueRef(static_cast<Knight&&>(k1));
 	
-	// 문제 - 나라마다 글자가 다르다는 것이 끔찍한 부분이다.
-	// 다른 나라 사이트 가면 통신이 절대 불가능한 상황이 됨
-	// 로컬환경이면 상관 없지만 통신이 들어가면 난리가 난다.
-
-	// 3) 유니코드 (동일한 번호 = 동일한 문자 = 동일한 유니코드 보장)
-	// 대표적인 것: 인코딩(UTF-8, UTF-16). 나머지는 사용할 일 없음
-	// - utf8: 영어(1바이트), 한국어/중국어(3바이트)
-	// - utf16: 영어(2바이트), 한국(2), 중국어(2), 진짜진짜잘안쓰는거(3)
-	// 한국, 중국에서 서비스한다면 utf16이 나을 것
-	auto test2 = u8"aaa세민입니다";
-	// setlocale로 UTF-8로 출력 변경해줘야 제대로 나온다. 
-	setlocale(LC_ALL, "en_US.UTF-8");
-	cout << test2 << endl;
-
-	// char는 1바이트라면서 사실 국가가 다를 때마다 2바이트로 사용됨
-	// const char*이 아니라 const void*라고 이해하는 것이 맞을 것이다.
-	// 포인터를 타고 갔을 때 char이 있는 게 아니라 void가 있는 것이다.
 	
-	// UTF16
-	auto test3 = L"UTF16 - aaa세민입니다";
-	// UTF16은 거의 모든 애들이 2바이트를 차지하게 된다. 
-	cout << test3 << endl;
-	// 아무튼 이런 출력 문제들 때문에 구닥다리 const char*보다는 string을 사용하게 될 것이다.
+	k2 = static_cast<Knight&&>(k1);	// 이동 대입 연산자
+	// k1을 이제 쓸 일이 없어서 k2한테 주면 소유권이 완전히 이전된다.
+	// k1은 이제 빈껍데기가 됨. 
+	// k2 = std::move(k1) 이 문법이랑 완전히 동일한 기능이다. 
+
 	
-	// 4) MBCS(Multi Byte Character Set) vs WBCS(Wide Byte Character Set)
-	// - 멀티바이트 집합(MBCS): 가변 길이 인코딩, ANSI, UTF-8
-	// 							국가마다 1바이트일 수도, 2바이트일 수도
-	// - 유니코드 집합(WBCS): 고정 길이 인코딩, UTF-16
-	//						  국가마다 2바이트로 통일
-
-	// char // string
-	wchar_t ch = L'루';	// L 표시는 Wide Byte라는 표시다 
-	wstring name = L"세민입니다";
-	wcout << name << endl;
-	// WBCS 형식의 char과 string이라고 보면 된다.
-	// 실질적으로 2바이트의 char과 string이다. 
-	// 언리얼이나 유니티에서도 다 2바이트임.
-	// utf16으로 관리하는 것이 보통이다. 
-
-	// 유니코드와 유니코드 집합은 다른 의미다. 
 }
