@@ -7,140 +7,173 @@ using namespace std;
 #include <unordered_map>
 #include <algorithm>
 
-class Pet
+// 면접에서 맨날 스마트 포인터 얘기한다 중요함
+
+class Knight;
+
+class ObjectManager
 {
-public:
+	Knight* GetObject(int id)
+	{
+		return nullptr;	// id로 무언가를 뱉어내게 만드는 게 best
+	}
 };
 
 class Knight
 {
 public:
-	Knight()
-	{
+	~Knight() {}
 
+	void Attack()
+	{
+		if (_target)
+			_target->_hp = _damage;
 	}
 
-	~Knight()
+public:
+	int _hp = 100;
+	int _damage = 10;
+
+	shared_ptr<Knight> _target = nullptr;
+	int _targetId = 0;
+};
+
+template<typename T>
+class Wrapper
+{
+public:
+	Wrapper(T* ptr) : _ptr(ptr) { }
+	~Wrapper()
 	{
-		if (_pet)
+		if (_ptr)	// 포인터가 null 이 아니라면 삭제시킨다
+			delete _ptr;
+	}
+
+public:
+	T* _ptr;
+};
+
+
+class RefCountBlock
+{
+public:
+	int _refCount = 1;
+};
+
+
+template<typename T>
+class SharedPtr
+{
+public:
+	SharedPtr() { }
+	SharedPtr(T* ptr) : _ptr(ptr) 
+	{
+		if (ptr)
 		{
-			delete _pet;
+			_block = new RefCountBlock();
+			cout << "RefCountBlock: " << _block << endl;
+		}
+	} 
+
+	SharedPtr(const SharedPtr& other) : _ptr(other._ptr), _block(other._block)
+	{
+		if (_ptr)
+		{
+			_block->_refCount++;
 		}
 	}
 
-	// 복사 생성자, 컴파일러가 기본으로 처리해주던 부분
-	Knight(const Knight& knight)
+	~SharedPtr()
 	{
+		if (_ptr) 
+		{
+			_block->_refCount--;
 
+			if (_block->_refCount == 0)
+			{
+				delete _ptr;
+				delete _block;
+				cout << "Delete data" << endl;
+			}
+		}
 	}
 
-	// 복사 대입 연산자, 컴파일러가 기본으로 처리해주던 부분
-	void operator=(const Knight& knight)
+	void operator=(const SharedPtr& other)
 	{
-		_hp = knight._hp;
-		// _pet = knight._pet;
-		// 문제가 있다. 복사될 때 별도의 펫을 만들어야 하는데
-		// 동일한 원본 펫을 가르키게 된다. 
+		_ptr = other._ptr;
+		_block = other._block;
 
-		if (knight._pet)
-			_pet = new Pet(*knight._pet);
-		// 이렇게 만들어야 새로운 펫을 가지게 된다. 
-		// 문제는 해결되지만 복사 비용이 적지 않게 되었다.
-		// 펫을 만들때 드는 비용이 크다면 복사할 때도 크게 된다. 
+		if ( _ptr ) 
+			_block->_refCount++;
 	}
-
-	// 이동 생성자, 컴파일러가 기본으로 처리해주던 부분
-	Knight(Knight&& knight)
-	{
-		_hp = knight._hp;
-		_pet = knight._pet;
-		knight._pet = nullptr;
-		// 상대방에게서 소유권을 이전한 개념이다.
-	}
-	
-	// 이동 대입 연산자, 컴파일러가 기본으로 처리해주던 부분
-	void operator=(Knight&& knight)
-	{
-		_hp = knight._hp;
-		_pet = knight._pet;
-		knight._pet = nullptr;
-		// 상대방에게서 소유권을 이전한 개념이다.
-	}
-
-	// 복사랑 이동이랑 별 차이가 없으면 상관이 없지만
-	// 둘의 차이가 아주 큰 상황을 불러올 경우 아주 주의해야 한다.
-	// 밑줄 없애고 싶은 ㄴ경우 noexcept 붙이면 된다. 사소한 부분이라 스킵
-
 
 public:
-	int _hp = 0;
-	Pet* _pet = nullptr;
+	T* _ptr = nullptr;	// 포인터 관리.
+	//int _refCount		// 몇개나, 얼마나 사용하고 있는지 카운트를 센다
+	RefCountBlock* _block;	// refCount 대신 동적할당으로 관리하는 게 일반적이다. 참조횟수 관리.
 };
 
-void TestKnight_Copy(Knight knight)
+void Test(shared_ptr<Knight>& k)
 {
-	// 이렇게 바꾸어도 원본에는 영향이 없다.
-	knight._hp = 100;
-}
-
-// 원본을 넘겨줄 테니... 건드려도 된다는 뜻
-void TestKnight_LValueRef(Knight& knight)
-{
-	knight._hp = 100;
-}
-
-// 원본을 넘겨줄 테니... 건들 순 없어
-void TestKnight_ConstLValueRef(const Knight& knight)
-{
-	// &&가 참조의 참조라는 뜻이 아니라는 것 알아두면 된다.
-	// &&는 오른값 참조라는 것이다. 
-}
-
-// 오른값 참조라는 새로운 것
-// 원본 넘겨줄 테니... 더이상 활용하지 않을테니 맘대로 해라!
-void TestKnight_RValueRef(Knight&& knight)
-{
-
+	// 이런식으로 k를 부르면 불릴 때 +1, 소멸될때 -1의 부담이 생기게 된다.
+	// 이런 부담을 주기 싫다면 shared_ptr<Knight>& 처럼 레퍼런스를 붙이면 
+	// +1, -1의 부담이 안 들게 된다. 
+	// 이처럼 &를 붙이면 스마트포인터를 쓰는 이유가 완전히 사라지는 것이기도 하기 때문에
+	// 보통 shared_ptr<Knight>와 같이 쓸 때는 절대 레퍼런스 쓰지 않아야 한다.
 }
 
 int main()
 {
-	// C++11: auto, lambda, rvalue-ref(오른쪽 참조)가 추가됨
-	// rvalue-ref는 아예 없던 기능이 새로 추가된 것임
-	// 아주 편리해졌고, C++11의 기능 중 1순위다
+	{
+		//Knight* knight = new Knight();
+		// delete를 안 하면 언젠가 메모리 릭으로 프로그램이 죽는다
+		// 정책에 따라 자동으로 관리하는 무언가를 넣어주는 게 스마트 포인터의 개념이다
 
-	// 왼값(l-value) vs 오른값(r-value)
-	// l-value : 단일식을 넘어서 계속 지속되는 개체
-	// r-value : l-value가 아닌 나머지
+		//Wrapper<Knight> w(knight);
+	}	// 스택 영역을 벗어나면 소멸자가 호출될 것이고, 포인터를 알아서 딜리트해주게 될 것이다.
+		// Wrapper class는 스마트 포인터는 아니지만 delete를 자동으로 해 주는 역할
 
-	int a = 3;
-	// a는 l-value, 3은 r-value
+	// * 밑의 세 가지가 스마트 포인터고 다 알아둬야 한다.
+	// shared_ptr	<< 99프로. 가장 비중이 높다.
+	// weak_ptr
+	// unique_ptr
 
-	Knight k1;
-	Knight k2;
-	k1._pet = new Pet();
-	// Knight k2 = k1 // 이거면 복사 생성자 
+	{	// 생포인터 사용
+		/*Knight* k1 = new Knight();
+		Knight* k2 = new Knight();
 
-	k2 = k1; // 복사 대입 연산자
+		k1->_target = k2;
+		delete k2;
+		k1->Attack();*/		// Knight 안에 SharedPtr를 넣게 되어서 포인터는 못 쓰게 됨
+		// 이런 경우 Attack을 할 때 k2가 없어져 있으니 오류가 생기지 않을까?
+		// 프로그램이 돌아가긴 하는데 _target에 접근하면 안 되는데 접근하는 메모리 오염이 생긴다
+		// 죽은 뒤에 _target을 어떻게 처리하는가?
+		// 포인터는 어쩔 수가 없다. 차라리 int targetId를 들고 있는 게 낫다.
+		// 그래서 생포인터는 안 쓰는 게 좋다. 생명주기가 꼬인다. 스마트포인터를 써야 한다. 
+	}
 
-	
-	TestKnight_Copy(k1); // 통째로 복사됨. 객체 크기가 크면 클수록 비효율적.
-	TestKnight_LValueRef(k1); // 왼값 참조. 
-	// TestKnight_LValueRef(Knight());	// 이러면 에러 나온다.
-	// 비const 참조에 대한 초기값은 왼값이어야만 한다고 뜸.
-	TestKnight_ConstLValueRef(Knight());
-	// const 붙이니까 실행이 된다. 그렇지만 knight 수정 불가능.
-	// 오른값은 const 붙여야 넘겨준다. 근데 안 바꿀 개체를 넘기는 행위 자체가 이상함.
-	// 그래서 일단 오류를 내뱉는 방식으로 한번 경고를 준 것임.
-	TestKnight_RValueRef(Knight());
-	// k1을 더이상 활용하지 않아서 넘기고 싶다면? 이렇게 쓸 수 있다.
-	TestKnight_RValueRef(static_cast<Knight&&>(k1));
-	
-	
-	k2 = static_cast<Knight&&>(k1);	// 이동 대입 연산자
-	// k1을 이제 쓸 일이 없어서 k2한테 주면 소유권이 완전히 이전된다.
-	// k1은 이제 빈껍데기가 됨. 
-	// k2 = std::move(k1) 이 문법이랑 완전히 동일한 기능이다. 
+	{ // shared_ptr 사용
+		SharedPtr<Knight> k1(new Knight());
+		//SharedPtr<Knight> k2(new Knight());
 
-	
+		SharedPtr<Knight> k3;
+		k3 = k1;	// k3와 k1은 동일한 나이트 객체를 가르킨다. 이럴 때 refCount를 늘려줌.
+		// SharedPtr이 복사된다. 
+		// Knight* k1 = new Knight();
+		// Knight* k3;
+		// k3 = k1;
+		// 이것과 완전한 동일한 의미다. 포인터를 복사하는 것임. 
+		// 같은 객체를 가르키고 있는 상태가 된다. 얕은 복사다.
+	}
+
+	{
+		shared_ptr<Knight> k1(new Knight());
+		shared_ptr<Knight> k2(new Knight());
+		k1->_target = k2;
+		// shared_ptr로 관리하면 k2가 사라질지언정
+		// k1->_target는 기억하고 있으니 소멸되지 않는다는 게 보장된다.
+		// 머언 훗날 아무도 사용하지 않을때 알아서 소멸되게 된다. 
+		// 한 명이라도 기억하고 있을 때는 사라지지 않는다.
+	}
+
 }
