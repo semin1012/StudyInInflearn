@@ -26,16 +26,22 @@ public:
 
 	void Attack()
 	{
-		if (_target)
-			_target->_hp = _damage;
+		/*if (_target)
+			_target->_hp = _damage;*/
+
+		if (_target.expired() == false )
+		{
+			shared_ptr<Knight> spr = _target.lock();
+		}
 	}
 
 public:
 	int _hp = 100;
 	int _damage = 10;
 
-	shared_ptr<Knight> _target = nullptr;
+	//shared_ptr<Knight> _target = nullptr;
 	int _targetId = 0;
+	weak_ptr<Knight> _target;
 };
 
 template<typename T>
@@ -111,6 +117,7 @@ public:
 	T* _ptr = nullptr;	// 포인터 관리.
 	//int _refCount		// 몇개나, 얼마나 사용하고 있는지 카운트를 센다
 	RefCountBlock* _block;	// refCount 대신 동적할당으로 관리하는 게 일반적이다. 참조횟수 관리.
+
 };
 
 void Test(shared_ptr<Knight>& k)
@@ -153,6 +160,7 @@ int main()
 	}
 
 	{ // shared_ptr 사용
+		/* shared_ptr */
 		SharedPtr<Knight> k1(new Knight());
 		//SharedPtr<Knight> k2(new Knight());
 
@@ -167,18 +175,60 @@ int main()
 	}
 
 	{
+		/* shared_ptr */
 		shared_ptr<Knight> k1(new Knight());
 		shared_ptr<Knight> k2(new Knight());
-		k1->_target = k2;
+		//k1->_target = k2;
 		// shared_ptr로 관리하면 k2가 사라질지언정
 		// k1->_target는 기억하고 있으니 소멸되지 않는다는 게 보장된다.
 		// 머언 훗날 아무도 사용하지 않을때 알아서 소멸되게 된다. 
 		// 한 명이라도 기억하고 있을 때는 사라지지 않는다.
 
+		//k2->_target = k1;
 		// 만약 k1과 k2 서로 _target으로 서로를 바라보고 있다면?
 		// 서로 refCount가 2가 되어서 어느쪽이 사라져도 refCount가 0이 되는 상황이 오지 않음.
 		// 이러면 영영 소멸이 되지 않는다. 메모리 릭 발생.
 		// 조심해서 사용하는 방법밖에 없다...
+
+		//k1->_target = nullptr;
+		//k2->_target = k1; 
+		// 이런 식으로 사이클 발생하지 않도록 해줘야 한다. 
 	}
 
+
+	{
+		/* weak_ptr */
+		// 약한 포인터다. 생명 주기에 영향을 줘서 refCount를 자체를 늘리지는 못 한다.
+		// 생명에는 영향을 주지 않는다. 생포인터랑 다른 게 뭐냐??
+		// _target.expired() << 존재하는지 확인해서 날라가지 않았으면 
+		// shared_ptr<Knight> spr = _target.lock();	// .lock() << null이 아니면 유효한 것 넘어옴
+		// 이렇게 해서 사이클 끊어줄 수 있다.
+		shared_ptr<Knight> k1(new Knight());
+		weak_ptr<Knight> weak = k1;
+		// k1을 가르키고 있어도 k1의 refCount는 늘어나지 않음. 
+		// weakCount만 늘어난다. 
+		shared_ptr<Knight> k2(new Knight());
+
+		k1->_target = k2;
+		k2->_target = k1;
+	}
+
+	{
+		/* unique_ptr */
+		// 딱 하나만 존재하는 것을 이것으로 관리하면 좋다. 매니저 포인터 같은 것. 
+		unique_ptr<Knight> k(new Knight());
+		//unique_ptr<Knight> k2 = k;
+		// 이거 안 됨. 복사를 다 막아둠.
+		// 그거 빼고는 포인터와 다 같다.
+		unique_ptr<Knight> k2 = std::move(k);
+		// 이건 k의 내용을 k2로 아예 옮겨버리는 것이니까 가능하다. k는 이제 사용 x.
+		// 물론 별로 쓸 일은 없다. 그냥 전체 하나만 존재하면 되는 ptr를 이걸로 만듬. 
+		// 사용하는 경우 거의 없다.
+	}
+
+	// 스마트 포인터 중 가장 중요한 것은 shared_ptr이다. weak_ptr은 그것을 보조하기 위한 역할,
+	// unique_ptr은 사용할 일이 거의 없음. 그러나 면접에서 자꾸 물어보니까 알아둬야 한다. 
+	// C#에서는 가비지 컬렉터를 사용한다. 레퍼런스 카운터 방식이 아니기 때문에 사이클 문제가 발생하지 않음.
+	// 가비지 컬렉터는 갑자기 크게 핑 튈 수가 있다. 장단점이 존재함. 
+	// 스마트 포인터를 사용할 거라면 일반 포인터를 사용 안 하는 게 맞다. 
 }

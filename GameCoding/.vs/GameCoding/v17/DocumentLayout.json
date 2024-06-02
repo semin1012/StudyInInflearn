@@ -7,6 +7,9 @@
       "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\memory||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\BinarySearchTree.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -80,11 +83,22 @@
         },
         {
           "DockedWidth": 201,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "memory",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\memory",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\memory",
+              "ViewState": "AQIAAOoLAAAAAAAAAADgv/wLAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-02T06:30:44.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "BinarySearchTree.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.cpp",
               "RelativeDocumentMoniker": "GameCoding\\BinarySearchTree.cpp",
@@ -96,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "BinarySearchTree.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\BinarySearchTree.h",
               "RelativeDocumentMoniker": "GameCoding\\BinarySearchTree.h",
@@ -112,16 +126,16 @@
               "Title": "GameCoding.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
               "RelativeDocumentMoniker": "GameCoding\\GameCoding.cpp",
-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
-              "RelativeToolTip": "GameCoding\\GameCoding.cpp",
-              "ViewState": "AQIAAJkAAAAAAAAAAADwv7AAAAAAAAAA",
+              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp*",
+              "RelativeToolTip": "GameCoding\\GameCoding.cpp*",
+              "ViewState": "AQIAAMQAAAAAAAAAAAAAALwAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-05-15T11:07:00.342Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Types.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Types.h",
               "RelativeDocumentMoniker": "Maze\\Types.h",
@@ -133,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "List.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\List.h",
               "RelativeDocumentMoniker": "Maze\\List.h",
@@ -145,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Vector.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.h",
               "RelativeDocumentMoniker": "Maze\\Vector.h",
@@ -157,7 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Vector.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.cpp",
               "RelativeDocumentMoniker": "Maze\\Vector.cpp",
@@ -169,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Board.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.cpp",
               "RelativeDocumentMoniker": "Maze\\Board.cpp",
@@ -181,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Maze.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Maze.cpp",
               "RelativeDocumentMoniker": "Maze\\Maze.cpp",
@@ -193,7 +207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Player.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp",
               "RelativeDocumentMoniker": "Maze\\Player.cpp",
@@ -205,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "pch.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h",
               "RelativeDocumentMoniker": "Maze\\pch.h",
@@ -217,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Board.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h",
               "RelativeDocumentMoniker": "Maze\\Board.h",
@@ -229,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Player.h",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.h",
               "RelativeDocumentMoniker": "Maze\\Player.h",
@@ -241,7 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Stack.cpp",
               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Stack.cpp",
               "RelativeDocumentMoniker": "Maze\\Stack.cpp",
