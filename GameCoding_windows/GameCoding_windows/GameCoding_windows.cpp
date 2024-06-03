@@ -35,9 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 2) 윈도우 창 생성
     if (!InitInstance (hInstance, nCmdShow))
-    {
         return FALSE;
-    }
 
     MSG msg;
 
@@ -140,10 +138,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_EXIT:
-                DestroyWindow(hWnd);
+                ::DestroyWindow(hWnd);
                 break;
             default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
+                return ::DefWindowProc(hWnd, message, wParam, lParam);
             }
         }
         break;
@@ -152,42 +150,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         // 다시 그려야 할 필요가 있을 때만 다시 그린다. 그래서 게임 같은 경우에 이런 기본 골격으로 만들 수 없다.
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            
+            HDC hdc = ::BeginPaint(hWnd, &ps);
 
-            // 문자
-            // 우리가 관리를 하지만 메모리 어딘가에 들고 있고 윈도우가 책임짐
-            WCHAR buffer[100];
-            ::wsprintf(buffer, L"(%d, %d)", mousePosX, mousePosY);
-            // 문자형식을 만든 다음 buffer에 넣어 준다.
-            ::TextOut(hdc, 100, 100, buffer, ::wcslen(buffer));
-
-            // 사각형
-            ::Rectangle(hdc, 200, 200, 400, 400);
-
-            // 원
-            ::Ellipse(hdc, 200, 200, 400, 400);
-
-            // 선
-            ::MoveToEx(hdc, 300, 300, nullptr);
-            ::LineTo(hdc, 400, 400);
-            ::LineTo(hdc, 500, 300);
-
-            EndPaint(hWnd, &ps);
+            ::EndPaint(hWnd, &ps);
         }
         break;
-    case WM_MOUSEMOVE:
-        // lParam & 0xFFFF;
-        // lParam >> 16;
-        mousePosX = LOWORD(lParam);
-        mousePosY = HIWORD(lParam);
-        ::InvalidateRect(hWnd, nullptr, TRUE);  // 이전 내용 지우고 다시 그리라는 것
-        break;
     case WM_DESTROY:
-        PostQuitMessage(0);
+        ::PostQuitMessage(0);
         break;
     default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
+        return ::DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
 }
