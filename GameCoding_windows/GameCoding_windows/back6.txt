@@ -1,0 +1,45 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+GameCoding/.vs/GameCoding/FileContentIndex/8faf6680-0bbc-4fc9-9564-a8644ce29252.vsidx
+GameCoding/.vs/GameCoding/v17/Browse.VC.db
+GameCoding/.vs/GameCoding/v17/Browse.VC.db-shm
+GameCoding/.vs/GameCoding/v17/Browse.VC.db-wal
+GameCoding/.vs/GameCoding/v17/Browse.VC.opendb
+GameCoding/.vs/GameCoding/v17/ipch/AutoPCH/2d143e5c95750049/GAMECODING.ipch
+GameCoding/.vs/GameCoding/v17/Browse.VC.db
+*.db
+GameCoding/.vs/GameCoding/v17/Browse.VC.db
+GameCoding/.vs/GameCoding/FileContentIndex/2c97897a-f938-4fde-be65-1ca5944ca40e.vsidx
+GameCoding/.vs/GameCoding/FileContentIndex/80cd8e2c-2fb2-4107-ad41-960470625105.vsidx
+GameCoding/.vs/GameCoding/FileContentIndex/89dacdfe-d798-4694-817f-92dd725c7c01.vsidx
+GameCoding/.vs/GameCoding/FileContentIndex/0ecef18c-278a-40c5-a738-bdc5235a8753.vsidx

@@ -1,0 +1,626 @@
+commit 6436dc076c71536854c01dab511b142c4dd327c3
+Author: semin1012 <73764069+semin1012@users.noreply.github.com>
+Date:   Wed Jun 5 22:48:42 2024 +0900
+
+    10Ï£ºÏ∞® SceneMangerÏôÄ Scene Íµ¨ÏÑ±
+    
+    - SceneManager
+    - Scene
+    - DevScene
+    - GameScene
+    - ÌÇ§Î≥¥Îìú Ïù∏Ìíã Î∞õÏïÑÎ¥Ñ -> ÎçîÎ∏îÎ≤ÑÌçºÎßÅ ÌïÑÏöî
+
+diff --git a/GameCoding_windows/GameCoding_windows/Defines.h b/GameCoding_windows/GameCoding_windows/Defines.h
+index adf5585..e948c9d 100644
+--- a/GameCoding_windows/GameCoding_windows/Defines.h
++++ b/GameCoding_windows/GameCoding_windows/Defines.h
+@@ -13,6 +13,14 @@ public:											\
+ 		return &s_instance;						\
+ 	}											\
+ 
++
++// 1. ≥Œ √º≈©, 2. µÙ∏Æ∆Æ, 3. ≥Œ ≥÷±‚ ¿Ã∞≈ ∏π¿Ã «œ∞‘ µ»¥Ÿ. æÀæ∆µ—∞Õ.
++#define SAFE_DELETE(ptr)		\
++	if (ptr) {					\
++		delete ptr;				\
++		ptr = nullptr;			\
++	}							\
++
+ // ∏≈≈©∑Œ∏¶ ªÁøÎ«œ∏È µπˆ±Î¿Ã »˚µÈ¥Ÿ¥¬ ¥‹¡°¿Ã ¿÷¿∏¥œ ≤¿ « ø‰«— ∞˜ø°∏∏ ªÁøÎ«“ ∞Õ.
+ 
+ #define GET_SINGLE(classname)	classname::GetInstance()
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/DevScene.cpp b/GameCoding_windows/GameCoding_windows/DevScene.cpp
+new file mode 100644
+index 0000000..e6a09af
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/DevScene.cpp
+@@ -0,0 +1,54 @@
++#include "pch.h"
++#include "DevScene.h"
++#include "InputManager.h"
++#include "TimeManager.h"
++
++DevScene::DevScene()
++{
++
++}
++
++DevScene::~DevScene()
++{
++
++}
++
++void DevScene::Init()
++{
++
++}
++
++void DevScene::Update()
++{
++	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
++	// ∞≈∏Æ = Ω√∞£ * º”µµ
++
++
++	// πÆ¡¶ πﬂª˝! 
++	// ¥Î∞¢º± ¿Ãµø Ω√ ∞≈∏Æ∞° µŒ π¯æø ∞ËªÍµ«±‚ ∂ßπÆø°(ªÛ«œ, ¡¬øÏ∑Œ) 
++	// º”µµ∞° ª°∂Û¡ˆ¥¬ ∫Œ∫–¿Ã ª˝±‰¥Ÿ.
++	if (GET_SINGLE(InputManager)->GetButton(KeyType::A))
++	{
++		_playerPos.x -= _speed * deltaTime;
++	}
++	
++	if (GET_SINGLE(InputManager)->GetButton(KeyType::D))
++	{
++		_playerPos.x += _speed * deltaTime;
++	}
++
++	if (GET_SINGLE(InputManager)->GetButton(KeyType::W))
++	{
++		_playerPos.y -= _speed * deltaTime;
++	}
++
++	if (GET_SINGLE(InputManager)->GetButton(KeyType::S))
++	{
++		_playerPos.y += _speed * deltaTime;
++	}
++}
++
++void DevScene::Render(HDC hdc)
++{
++	Utils::DrawCircle(hdc, _playerPos, 50);
++}
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/DevScene.h b/GameCoding_windows/GameCoding_windows/DevScene.h
+new file mode 100644
+index 0000000..21d24fc
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/DevScene.h
+@@ -0,0 +1,18 @@
++#pragma once
++#include "Scene.h"
++
++class DevScene : public Scene
++{
++public:
++	DevScene();
++	virtual ~DevScene() override;
++
++	virtual void Init() override;
++	virtual void Update() override;
++	virtual void Render(HDC hdc) override;
++
++public:
++	Pos _playerPos = { 300, 300 };
++	float _speed = 1000;
++};
++
+diff --git a/GameCoding_windows/GameCoding_windows/Enums.h b/GameCoding_windows/GameCoding_windows/Enums.h
+index 6f70f09..c725613 100644
+--- a/GameCoding_windows/GameCoding_windows/Enums.h
++++ b/GameCoding_windows/GameCoding_windows/Enums.h
+@@ -1 +1,8 @@
+ #pragma once
++
++enum class SceneType
++{
++	None,
++	DevScene,
++	GameScene,
++};
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/Game.cpp b/GameCoding_windows/GameCoding_windows/Game.cpp
+index cb47aad..7c33303 100644
+--- a/GameCoding_windows/GameCoding_windows/Game.cpp
++++ b/GameCoding_windows/GameCoding_windows/Game.cpp
+@@ -2,13 +2,21 @@
+ #include "Game.h"
+ #include "TimeManager.h"
+ #include "InputManager.h"
++#include "SceneManager.h"
+ 
+ Game::Game()
+ {
++	// ∏ﬁ∏∏Æ ∏Ø √º≈©
++	//new
++	//delete
+ }
+ 
+ Game::~Game()
+ {
++	GET_SINGLE(SceneManager)->Clear();
++
++	_CrtDumpMemoryLeaks();
++	// ∏∂¡ˆ∏∑ø° ∏ﬁ∏∏Æ «ÿ¡¶µ«¡ˆ æ ¿∫ æ÷µÈ¿ª √‚∑¬√¢ø° ≥™ø¿∞‘ «ÿ ¡‹
+ }
+ 
+ void Game::Init(HWND hwnd)
+@@ -19,12 +27,16 @@ void Game::Init(HWND hwnd)
+ 	//TimeManager::GetInstance()->Init();
+ 	GET_SINGLE(TimeManager)->Init();
+ 	GET_SINGLE(InputManager)->Init(hwnd);
++	GET_SINGLE(SceneManager)->Init();
++
++	GET_SINGLE(SceneManager)->ChangeScene(SceneType::DevScene);
+ }
+ 
+ void Game::Update()
+ {
+ 	GET_SINGLE(TimeManager)->Update();
+ 	GET_SINGLE(InputManager)->Update();
++	GET_SINGLE(SceneManager)->Update();
+ }
+ 
+ void Game::Render()
+@@ -45,4 +57,8 @@ void Game::Render()
+ 		::TextOut(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+ 	}
+ 
++
++	GET_SINGLE(SceneManager)->Render(_hdc);
++	
++	// ¥ı∫Ì πˆ∆€∏µø° ¥Î«ÿº≠ ∏È¡¢ø°º≠ πØ¥¬ ∞ÊøÏ ¿÷¥Ÿ. æÀæ∆µ— ∞Õ.
+ }
+diff --git a/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj b/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj
+index 0d3a4a8..2dc4d6e 100644
+--- a/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj
++++ b/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj
+@@ -134,26 +134,36 @@
+   </ItemDefinitionGroup>
+   <ItemGroup>
+     <ClInclude Include="Defines.h" />
++    <ClInclude Include="DevScene.h" />
+     <ClInclude Include="Enums.h" />
+     <ClInclude Include="framework.h" />
+     <ClInclude Include="Game.h" />
+     <ClInclude Include="GameCoding_windows.h" />
++    <ClInclude Include="GameScene.h" />
+     <ClInclude Include="InputManager.h" />
+     <ClInclude Include="pch.h" />
+     <ClInclude Include="Resource.h" />
++    <ClInclude Include="Scene.h" />
++    <ClInclude Include="SceneManager.h" />
+     <ClInclude Include="targetver.h" />
+     <ClInclude Include="TimeManager.h" />
+     <ClInclude Include="Types.h" />
++    <ClInclude Include="Utils.h" />
+   </ItemGroup>
+   <ItemGroup>
++    <ClCompile Include="DevScene.cpp" />
+     <ClCompile Include="Game.cpp" />
+     <ClCompile Include="GameCoding_windows.cpp" />
++    <ClCompile Include="GameScene.cpp" />
+     <ClCompile Include="InputManager.cpp" />
+     <ClCompile Include="pch.cpp">
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+     </ClCompile>
++    <ClCompile Include="Scene.cpp" />
++    <ClCompile Include="SceneManager.cpp" />
+     <ClCompile Include="TimeManager.cpp" />
++    <ClCompile Include="Utils.cpp" />
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="GameCoding_windows.rc" />
+diff --git a/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj.filters b/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj.filters
+index 57e8015..aa09fcd 100644
+--- a/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj.filters
++++ b/GameCoding_windows/GameCoding_windows/GameCoding_windows.vcxproj.filters
+@@ -21,6 +21,15 @@
+     <Filter Include="ÏÜåÏä§ ÌååÏùº\99.Headers\Andromeda">
+       <UniqueIdentifier>{f7161aff-613c-4698-85ee-eabd92036c96}</UniqueIdentifier>
+     </Filter>
++    <Filter Include="ÏÜåÏä§ ÌååÏùº\02.Scene">
++      <UniqueIdentifier>{49244b7b-d63a-4e9c-b710-7a24c07ba42c}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="ÏÜåÏä§ ÌååÏùº\03.Objects">
++      <UniqueIdentifier>{73180eb0-85d5-43e8-bb97-a93a7cf8b5ff}</UniqueIdentifier>
++    </Filter>
++    <Filter Include="ÏÜåÏä§ ÌååÏùº\02.Scene\Game">
++      <UniqueIdentifier>{ce2a88f1-6ef1-4855-b739-a1d95a665bbc}</UniqueIdentifier>
++    </Filter>
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="GameCoding_windows.h">
+@@ -56,6 +65,21 @@
+     <ClInclude Include="TimeManager.h">
+       <Filter>ÏÜåÏä§ ÌååÏùº\01.Manager</Filter>
+     </ClInclude>
++    <ClInclude Include="Utils.h">
++      <Filter>ÏÜåÏä§ ÌååÏùº\99.Headers</Filter>
++    </ClInclude>
++    <ClInclude Include="Scene.h">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene</Filter>
++    </ClInclude>
++    <ClInclude Include="SceneManager.h">
++      <Filter>ÏÜåÏä§ ÌååÏùº\01.Manager</Filter>
++    </ClInclude>
++    <ClInclude Include="DevScene.h">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene\Game</Filter>
++    </ClInclude>
++    <ClInclude Include="GameScene.h">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene\Game</Filter>
++    </ClInclude>
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="GameCoding_windows.rc">
+@@ -86,5 +110,20 @@
+     <ClCompile Include="TimeManager.cpp">
+       <Filter>ÏÜåÏä§ ÌååÏùº\01.Manager</Filter>
+     </ClCompile>
++    <ClCompile Include="Utils.cpp">
++      <Filter>ÏÜåÏä§ ÌååÏùº\99.Headers</Filter>
++    </ClCompile>
++    <ClCompile Include="Scene.cpp">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene</Filter>
++    </ClCompile>
++    <ClCompile Include="SceneManager.cpp">
++      <Filter>ÏÜåÏä§ ÌååÏùº\01.Manager</Filter>
++    </ClCompile>
++    <ClCompile Include="DevScene.cpp">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene\Game</Filter>
++    </ClCompile>
++    <ClCompile Include="GameScene.cpp">
++      <Filter>ÏÜåÏä§ ÌååÏùº\02.Scene\Game</Filter>
++    </ClCompile>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/GameScene.cpp b/GameCoding_windows/GameCoding_windows/GameScene.cpp
+new file mode 100644
+index 0000000..12a8eae
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/GameScene.cpp
+@@ -0,0 +1,22 @@
++#include "pch.h"
++#include "GameScene.h"
++
++GameScene::GameScene()
++{
++}
++
++GameScene::~GameScene()
++{
++}
++
++void GameScene::Init()
++{
++}
++
++void GameScene::Update()
++{
++}
++
++void GameScene::Render(HDC hdc)
++{
++}
+diff --git a/GameCoding_windows/GameCoding_windows/GameScene.h b/GameCoding_windows/GameCoding_windows/GameScene.h
+new file mode 100644
+index 0000000..dfdcac7
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/GameScene.h
+@@ -0,0 +1,17 @@
++#pragma once
++#include "Scene.h"
++
++class GameScene : public Scene
++{
++public:
++	GameScene();
++	virtual ~GameScene() override;
++
++	virtual void Init() override;
++	virtual void Update() override;
++	virtual void Render(HDC hdc) override;
++
++public:
++
++};
++
+diff --git a/GameCoding_windows/GameCoding_windows/Scene.cpp b/GameCoding_windows/GameCoding_windows/Scene.cpp
+new file mode 100644
+index 0000000..e2f9142
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/Scene.cpp
+@@ -0,0 +1,10 @@
++#include "pch.h"
++#include "Scene.h"
++
++Scene::Scene()
++{
++}
++
++Scene::~Scene()
++{
++}
+diff --git a/GameCoding_windows/GameCoding_windows/Scene.h b/GameCoding_windows/GameCoding_windows/Scene.h
+new file mode 100644
+index 0000000..6627f0e
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/Scene.h
+@@ -0,0 +1,17 @@
++#pragma once
++
++class Scene
++{
++public:
++	Scene();
++	virtual ~Scene();
++
++	virtual void Init() abstract;
++	// virtual void Init() = 0; øÕ ∞∞¿∫ πÆπ˝¿Ã¥Ÿ.
++	virtual void Update() abstract;
++	virtual void Render(HDC hdc) abstract;
++
++protected:
++
++};
++
+diff --git a/GameCoding_windows/GameCoding_windows/SceneManager.cpp b/GameCoding_windows/GameCoding_windows/SceneManager.cpp
+new file mode 100644
+index 0000000..c761a9f
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/SceneManager.cpp
+@@ -0,0 +1,54 @@
++#include "pch.h"
++#include "SceneManager.h"
++#include "DevScene.h"
++#include "GameScene.h"
++
++void SceneManager::Init()
++{
++}
++
++void SceneManager::Update()
++{
++	if (_scene)
++	{
++		_scene->Update();
++	}
++}
++
++void SceneManager::Render(HDC hdc)
++{
++	if (_scene)
++	{
++		_scene->Render(hdc);
++	}
++}
++
++void SceneManager::Clear()
++{
++	SAFE_DELETE(_scene);
++}
++
++void SceneManager::ChangeScene(SceneType sceneType)
++{
++	if (_sceneType == sceneType)
++		return;
++	
++	Scene* newScene = nullptr;
++
++	switch (sceneType)
++	{
++	case SceneType::DevScene:
++		newScene = new DevScene();
++		break;
++	case SceneType::GameScene:
++		newScene = new GameScene();
++		break;
++	}
++
++	SAFE_DELETE(_scene);
++
++	_scene = newScene;
++	_sceneType = sceneType;
++
++	newScene->Init();
++}
+diff --git a/GameCoding_windows/GameCoding_windows/SceneManager.h b/GameCoding_windows/GameCoding_windows/SceneManager.h
+new file mode 100644
+index 0000000..0479e1a
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/SceneManager.h
+@@ -0,0 +1,26 @@
++#pragma once
++
++class SceneManager
++{
++	// æ¿∞˙ æ¿ ∏≈¥œ¿˙∏¶ µŒ¥¬ ¿Ã¿Ø¥¬?
++	// ∞‘¿”¿« æ¿∏∂¥Ÿ æ∆øπ ¥¿≥¶¿Ã ¥ﬁ∂Û¡˙ ºˆ ¿÷¥Ÿ.
++	// æ¿¿Ã æ¯¥Ÿ∏È æ¿ ∏≈¥œ¿˙ø° ±◊ ∞¥√ºµÈ¿ª «œµÂƒ⁄µ˘«“ ºˆπ€ø° æ¯¡ˆ∏∏
++	// æ¿¿ª µ˚∑Œ µ–¥Ÿ∏È «œµÂƒ⁄µ˘ æ¯¿Ã ∞‘¿”ø°º≠ «√∑π¿ÃæÓ, ∏ÛΩ∫≈Õ∏¶ πËƒ°«œµÌ ±Ú≤˚
++	// «œ∞‘ ƒ⁄µ˘¿Ã ∞°¥…«œ¥Ÿ. 
++
++	DECLARE_SINGLE(SceneManager);
++
++public:
++	void Init();
++	void Update();
++	void Render(HDC hdc);
++
++	void Clear();
++
++public:
++	void ChangeScene(SceneType sceneType);
++
++private:
++	class Scene* _scene;
++	SceneType _sceneType = SceneType::None;
++};
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/Types.h b/GameCoding_windows/GameCoding_windows/Types.h
+index da309a9..f84af2f 100644
+--- a/GameCoding_windows/GameCoding_windows/Types.h
++++ b/GameCoding_windows/GameCoding_windows/Types.h
+@@ -8,3 +8,9 @@ using uint8 = unsigned __int8;
+ using uint16 = unsigned __int16;
+ using uint32 = unsigned __int32;
+ using uint64 = unsigned __int64;
++
++struct Pos
++{
++	float x = 0.f;
++	float y = 0.f;
++};
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/Utils.cpp b/GameCoding_windows/GameCoding_windows/Utils.cpp
+new file mode 100644
+index 0000000..ae0b90d
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/Utils.cpp
+@@ -0,0 +1,24 @@
++#include "pch.h"
++#include "Utils.h"
++
++void Utils::DrawText(HDC hdc, Pos pos, const wstring& str)
++{
++	::TextOut(hdc, static_cast<int32>(pos.x), static_cast<int32>(pos.y), str.c_str(), static_cast<int32>(str.size()));
++}
++
++void Utils::DrawRect(HDC hdc, Pos pos, int32 w, int32 h)
++{
++	::Rectangle(hdc, static_cast<int32>(pos.x - w /2), static_cast<int32>(pos.y - h/2), 
++		static_cast<int32>(pos.x + w/2), static_cast<int32>(pos.y + h/2));
++}
++
++void Utils::DrawCircle(HDC hdc, Pos pos, int32 radius)
++{
++	::Ellipse(hdc, static_cast<int32>(pos.x - radius), static_cast<int32>(pos.y - radius), static_cast<int32>(pos.x + radius), static_cast<int32>(pos.y + radius));
++}
++
++void Utils::DrawLine(HDC hdc, Pos from, Pos to)
++{
++	::MoveToEx(hdc, static_cast<int32>(from.x), static_cast<int32>(from.y), nullptr);
++	::LineTo(hdc, static_cast<int32>(to.x), static_cast<int32>(to.y));
++}
+diff --git a/GameCoding_windows/GameCoding_windows/Utils.h b/GameCoding_windows/GameCoding_windows/Utils.h
+new file mode 100644
+index 0000000..ff881e1
+--- /dev/null
++++ b/GameCoding_windows/GameCoding_windows/Utils.h
+@@ -0,0 +1,19 @@
++#pragma once
++#include <windows.h>
++#include <string>
++using namespace std;
++
++// ¿ÃπÃ ¥Ÿ ∏∏µÈæÓ¡¯ «‘ºˆ±‰ «—µ• ∆Ì∏Æº∫¿ª ¿ß«ÿ ±ª¿Ã ∏∏µÁ¥Ÿ
++
++class Utils
++{
++public:
++
++	static void DrawText(HDC hdc, Pos pos, const wstring& str);
++
++	static void DrawRect(HDC hdc, Pos pos, int32 w, int32 h);
++
++	static void DrawCircle(HDC hdc, Pos pos, int32 radius);
++
++	static void DrawLine(HDC hdc, Pos from, Pos to);
++};
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/pch.h b/GameCoding_windows/GameCoding_windows/pch.h
+index 0c892a7..e7ac646 100644
+--- a/GameCoding_windows/GameCoding_windows/pch.h
++++ b/GameCoding_windows/GameCoding_windows/pch.h
+@@ -3,6 +3,7 @@
+ #include "Types.h"
+ #include "Enums.h"
+ #include "Defines.h"
++#include "Utils.h"
+ 
+ #include <windows.h>
+ #include <vector>
+@@ -14,4 +15,15 @@
+ using namespace std;
+ 
+ 
+-#include <format>
+\ No newline at end of file
++#include <format>
++
++
++// ∏ﬁ∏∏Æ ∏Ø √º≈©«œ¥¬ ∞Õ¿Ã ¡¡¥Ÿ
++#define _CRTDEBG_MAP_ALLOC
++#include <cstdlib>
++#include <crtdbg.h>
++
++#ifdef _DEBUG
++// πÿø° ¡Ÿ æ≤∏È ∆ƒ¿œ¿« ∏Óπ¯¬∞ ¡Ÿ¿Œ¡ˆ √ﬂ¿˚«“ ºˆ ¿÷∞‘ µ»¥Ÿ. 
++#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
++#endif
+\ No newline at end of file
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.command.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.command.1.tlog
+index 4d82d7a..3dea9ba 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.command.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.command.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.read.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.read.1.tlog
+index c87e368..0ba721e 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.read.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.read.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.write.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.write.1.tlog
+index 254e857..d488257 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.write.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/CL.write.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/Cl.items.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/Cl.items.tlog
+index 2936fff..fdf8f71 100644
+--- a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/Cl.items.tlog
++++ b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/Cl.items.tlog
+@@ -1,5 +1,10 @@
++D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\DevScene.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\DevScene.obj
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\Game.obj
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\GameCoding_windows.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\GameCoding_windows.obj
++D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\GameScene.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\GameScene.obj
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\InputManager.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\InputManager.obj
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\pch.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\pch.obj
++D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Scene.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\Scene.obj
++D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\SceneManager.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\SceneManager.obj
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\TimeManager.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\TimeManager.obj
++D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp;D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\Utils.obj
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.command.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.command.1.tlog
+index a12bacb..20429c1 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.command.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.command.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.read.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.read.1.tlog
+index de6719a..4514f64 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.read.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.read.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.secondary.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.secondary.1.tlog
+index 3fbc6cd..180acce 100644
+--- a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.secondary.1.tlog
++++ b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.secondary.1.tlog
+@@ -1,2 +1,2 @@
+-^D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAME.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAMECODING_WINDOWS.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAMECODING_WINDOWS.RES|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\INPUTMANAGER.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\PCH.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\TIMEMANAGER.OBJ
++^D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\DEVSCENE.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAME.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAMECODING_WINDOWS.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAMECODING_WINDOWS.RES|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\GAMESCENE.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\INPUTMANAGER.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\PCH.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\SCENE.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\SCENEMANAGER.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\TIMEMANAGER.OBJ|D:\00.PROJECT\STUDYININFLEARN\GAMECODING_WINDOWS\GAMECODING_WINDOWS\X64\DEBUG\UTILS.OBJ
+ D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\x64\Debug\GameCoding_windows.ilk
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.write.1.tlog b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.write.1.tlog
+index aded8f3..3bb221b 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.write.1.tlog and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCodi.1cc651e1.tlog/link.write.1.tlog differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCoding_windows.ilk b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCoding_windows.ilk
+index 7a798ff..e357dad 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/GameCoding_windows.ilk and b/GameCoding_windows/GameCoding_windows/x64/Debug/GameCoding_windows.ilk differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.idb b/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.idb
+index 4167ee3..504f998 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.idb and b/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.idb differ
+diff --git a/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.pdb b/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.pdb
+index 5bef200..6aca1bf 100644
+Binary files a/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.pdb and b/GameCoding_windows/GameCoding_windows/x64/Debug/vc143.pdb differ
+diff --git a/GameCoding_windows/x64/Debug/GameCoding_windows.pdb b/GameCoding_windows/x64/Debug/GameCoding_windows.pdb
+index b3ff85d..0c48892 100644
+Binary files a/GameCoding_windows/x64/Debug/GameCoding_windows.pdb and b/GameCoding_windows/x64/Debug/GameCoding_windows.pdb differ

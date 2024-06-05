@@ -1,0 +1,571 @@
+commit b68d7a7373b97d1c555c16767ca586c9d92c1261
+Author: semin1012 <73764069+semin1012@users.noreply.github.com>
+Date:   Mon May 13 22:47:23 2024 +0900
+
+    7ì£¼ì°¨ ë‹¤ìµìŠ¤íŠ¸ë¼ ì•Œê³ ë¦¬ì¦˜
+    
+    BFSì— ê°€ì¤‘ì¹˜ë¥¼ ë”í•œ ê°œë…ì´ë‹¤.
+    queue -> priority_queue
+
+diff --git a/GameCoding/.vs/GameCoding/v17/.suo b/GameCoding/.vs/GameCoding/v17/.suo
+index eb12f38..83e8ce6 100644
+Binary files a/GameCoding/.vs/GameCoding/v17/.suo and b/GameCoding/.vs/GameCoding/v17/.suo differ
+diff --git a/GameCoding/.vs/GameCoding/v17/Browse.VC.db b/GameCoding/.vs/GameCoding/v17/Browse.VC.db
+index 2077e7d..f0e8ed6 100644
+Binary files a/GameCoding/.vs/GameCoding/v17/Browse.VC.db and b/GameCoding/.vs/GameCoding/v17/Browse.VC.db differ
+diff --git a/GameCoding/.vs/GameCoding/v17/DocumentLayout.json b/GameCoding/.vs/GameCoding/v17/DocumentLayout.json
+index b0d9694..0a0c20a 100644
+--- a/GameCoding/.vs/GameCoding/v17/DocumentLayout.json
++++ b/GameCoding/.vs/GameCoding/v17/DocumentLayout.json
+@@ -3,28 +3,40 @@
+   "WorkspaceRootPath": "D:\\00.Project\\StudyInInflearn\\GameCoding\\",
+   "Documents": [
+     {
+-      "AbsoluteMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+-      "RelativeMoniker": "D:0:0:{FB2C41B6-B5CC-4197-B374-1238F78B9B5F}|GameCoding\\GameCoding.vcxproj|solutionrelative:GameCoding\\GameCoding.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Types.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Types.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
+     {
+       "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+       "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
++    {
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Maze.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Maze.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++    },
++    {
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\pch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++    },
+     {
+       "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+       "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Board.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
+     {
+-      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Maze.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+-      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Maze.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\List.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\List.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
+     {
+-      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+-      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Vector.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
+     {
+-      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+-      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\pch.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Vector.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
++    },
++    {
++      "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
++      "RelativeMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|solutionrelative:Maze\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+     },
+     {
+       "AbsoluteMoniker": "D:0:0:{016B64B6-0A7C-47A3-970C-5C27D45FE2AB}|Maze\\Maze.vcxproj|D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+@@ -61,92 +73,136 @@
+             {
+               "$type": "Document",
+               "DocumentIndex": 0,
+-              "Title": "GameCoding.cpp",
+-              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
+-              "RelativeDocumentMoniker": "GameCoding\\GameCoding.cpp",
+-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\GameCoding\\GameCoding.cpp",
+-              "RelativeToolTip": "GameCoding\\GameCoding.cpp",
+-              "ViewState": "AQIAAF0AAAAAAAAAAAAvwGIAAAAAAAAA",
++              "Title": "Types.h",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Types.h",
++              "RelativeDocumentMoniker": "Maze\\Types.h",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Types.h*",
++              "RelativeToolTip": "Maze\\Types.h*",
++              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAfAAAA",
++              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
++              "WhenOpened": "2024-05-13T13:46:41.963Z",
++              "EditorCaption": ""
++            },
++            {
++              "$type": "Document",
++              "DocumentIndex": 5,
++              "Title": "List.h",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\List.h",
++              "RelativeDocumentMoniker": "Maze\\List.h",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\List.h",
++              "RelativeToolTip": "Maze\\List.h",
++              "ViewState": "AQIAAIEAAAAAAAAAAAASwI4AAAALAAAA",
++              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
++              "WhenOpened": "2024-05-13T13:43:47.529Z",
++              "EditorCaption": ""
++            },
++            {
++              "$type": "Document",
++              "DocumentIndex": 6,
++              "Title": "Vector.h",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.h",
++              "RelativeDocumentMoniker": "Maze\\Vector.h",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.h",
++              "RelativeToolTip": "Maze\\Vector.h",
++              "ViewState": "AQIAAFQAAAAAAAAAAAAAAAAAAAAAAAAA",
++              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
++              "WhenOpened": "2024-05-13T13:42:03.98Z",
++              "EditorCaption": ""
++            },
++            {
++              "$type": "Document",
++              "DocumentIndex": 7,
++              "Title": "Vector.cpp",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.cpp",
++              "RelativeDocumentMoniker": "Maze\\Vector.cpp",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Vector.cpp",
++              "RelativeToolTip": "Maze\\Vector.cpp",
++              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+-              "WhenOpened": "2024-05-13T12:09:15.989Z",
++              "WhenOpened": "2024-05-13T13:42:03.161Z",
+               "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 2,
++              "DocumentIndex": 4,
+               "Title": "Board.cpp",
+               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.cpp",
+               "RelativeDocumentMoniker": "Maze\\Board.cpp",
+               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.cpp",
+               "RelativeToolTip": "Maze\\Board.cpp",
+-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAOAAAA",
++              "ViewState": "AQIAAFQAAAAAAAAAAAAAAAcAAAABAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+-              "WhenOpened": "2024-05-11T04:08:22.846Z"
++              "WhenOpened": "2024-05-11T04:08:22.846Z",
++              "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 3,
++              "DocumentIndex": 2,
+               "Title": "Maze.cpp",
+               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Maze.cpp",
+               "RelativeDocumentMoniker": "Maze\\Maze.cpp",
+               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Maze.cpp",
+               "RelativeToolTip": "Maze\\Maze.cpp",
+-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAOAAAA",
++              "ViewState": "AQIAABwAAAAAAAAAAADgvysAAAARAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+-              "WhenOpened": "2024-05-11T04:07:02.352Z"
++              "WhenOpened": "2024-05-11T04:07:02.352Z",
++              "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 6,
+-              "Title": "Board.h",
+-              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h",
+-              "RelativeDocumentMoniker": "Maze\\Board.h",
+-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h",
+-              "RelativeToolTip": "Maze\\Board.h",
+-              "ViewState": "AQIAAAwAAAAAAAAAAAAAACQAAAAkAAAA",
+-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+-              "WhenOpened": "2024-05-11T03:41:41.092Z"
++              "DocumentIndex": 1,
++              "Title": "Player.cpp",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp",
++              "RelativeDocumentMoniker": "Maze\\Player.cpp",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp*",
++              "RelativeToolTip": "Maze\\Player.cpp*",
++              "ViewState": "AQIAAOgAAAAAAAAAAAAYwPsAAAAUAAAA",
++              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
++              "WhenOpened": "2024-05-11T03:25:35.621Z",
++              "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 5,
++              "DocumentIndex": 3,
+               "Title": "pch.h",
+               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h",
+               "RelativeDocumentMoniker": "Maze\\pch.h",
+-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h",
+-              "RelativeToolTip": "Maze\\pch.h",
+-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAQAAAA",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\pch.h*",
++              "RelativeToolTip": "Maze\\pch.h*",
++              "ViewState": "AQIAACUAAAAAAAAAAAAYwDUAAAACAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+-              "WhenOpened": "2024-05-11T03:40:27.924Z"
++              "WhenOpened": "2024-05-11T03:40:27.924Z",
++              "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 4,
++              "DocumentIndex": 9,
++              "Title": "Board.h",
++              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h",
++              "RelativeDocumentMoniker": "Maze\\Board.h",
++              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Board.h",
++              "RelativeToolTip": "Maze\\Board.h",
++              "ViewState": "AQIAAAwAAAAAAAAAAAAAABoAAAAMAAAA",
++              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
++              "WhenOpened": "2024-05-11T03:41:41.092Z",
++              "EditorCaption": ""
++            },
++            {
++              "$type": "Document",
++              "DocumentIndex": 8,
+               "Title": "Player.h",
+               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.h",
+               "RelativeDocumentMoniker": "Maze\\Player.h",
+               "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.h",
+               "RelativeToolTip": "Maze\\Player.h",
+-              "ViewState": "AQIAAA0AAAAAAAAAAAD4vyEAAAARAAAA",
++              "ViewState": "AQIAAAMAAAAAAAAAAAAAABkAAAAXAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+-              "WhenOpened": "2024-05-11T03:25:39.343Z"
+-            },
+-            {
+-              "$type": "Document",
+-              "DocumentIndex": 1,
+-              "Title": "Player.cpp",
+-              "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp",
+-              "RelativeDocumentMoniker": "Maze\\Player.cpp",
+-              "ToolTip": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Player.cpp",
+-              "RelativeToolTip": "Maze\\Player.cpp",
+-              "ViewState": "AQIAAEcAAAAAAAAAAAASwGUAAAACAAAA",
+-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+-              "WhenOpened": "2024-05-11T03:25:35.621Z",
++              "WhenOpened": "2024-05-11T03:25:39.343Z",
+               "EditorCaption": ""
+             },
+             {
+               "$type": "Document",
+-              "DocumentIndex": 7,
++              "DocumentIndex": 10,
+               "Title": "Stack.cpp",
+               "DocumentMoniker": "D:\\00.Project\\StudyInInflearn\\GameCoding\\Maze\\Stack.cpp",
+               "RelativeDocumentMoniker": "Maze\\Stack.cpp",
+@@ -154,7 +210,8 @@
+               "RelativeToolTip": "Maze\\Stack.cpp",
+               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+-              "WhenOpened": "2024-04-07T04:40:40.083Z"
++              "WhenOpened": "2024-04-07T04:40:40.083Z",
++              "EditorCaption": ""
+             }
+           ]
+         }
+diff --git a/GameCoding/.vs/GameCoding/v17/ipch/AutoPCH/e30199fcdfb5069d/MAZE.ipch b/GameCoding/.vs/GameCoding/v17/ipch/AutoPCH/e30199fcdfb5069d/MAZE.ipch
+index f340fdc..36a061c 100644
+Binary files a/GameCoding/.vs/GameCoding/v17/ipch/AutoPCH/e30199fcdfb5069d/MAZE.ipch and b/GameCoding/.vs/GameCoding/v17/ipch/AutoPCH/e30199fcdfb5069d/MAZE.ipch differ
+diff --git a/GameCoding/Maze/List.h b/GameCoding/Maze/List.h
+index c6c3528..e04a30e 100644
+--- a/GameCoding/Maze/List.h
++++ b/GameCoding/Maze/List.h
+@@ -115,7 +115,7 @@ public:
+     //                                    [node]
+     // [dummy]<->[1]<->[2]<->[prevNode]<->[dummy]
+     // [head]                       [tail]
+-    Node* AddAtTail(int data)
++    Node<T>* AddAtTail(int data)
+     {
+         Node<T>* node = new Node<T>(data);
+         Node<T>* prevNode = _tail->prev;
+@@ -140,7 +140,7 @@ public:
+         posNode->prev = node;
+     }
+ 
+-    Node* Remove(Node<T>* node)
++    Node<T>* Remove(Node<T>* node)
+     {
+         Node<T>* prevNode = node->prev;
+         Node<T>* nextNode = node->next;
+diff --git a/GameCoding/Maze/Maze.cpp b/GameCoding/Maze/Maze.cpp
+index 1789c9a..29dcf62 100644
+--- a/GameCoding/Maze/Maze.cpp
++++ b/GameCoding/Maze/Maze.cpp
+@@ -3,22 +3,26 @@
+ #include "Player.h"
+ #include "Board.h"
+ #include "Stack.h"
++#include "List.h"
+ 
+ Board board;
+ Player player;
+ 
+ int main()
+ {
+-	Stack<int> st;
++	List<int> li;
+ 
+-	st.push(1);
+-	st.push(2);
+-	st.push(3);
++	auto node2 = li.GetNode(0);
+ 
+-	// ì‚¬ìš©í•  ë°ì´í„°ë¥¼ ë¨¼ì € êº¼ë‚¸ë‹¤.
+-	int a = st.top();
+-	// ë§ˆì§€ë§‰ ë°ì´í„°ë¥¼ ì‚­ì œí•œë‹¤.
+-	st.pop();
++	li.AddAtHead(1);
++	li.AddAtHead(2);
++
++	auto node3 = li.GetNode(1);
++
++	li.AddAtHead(3);
++	li.Print();
++
++	auto node = li.GetNode(3);
+ 
+ 	//----------------------------------------------------------------------------
+ 
+diff --git a/GameCoding/Maze/Player.cpp b/GameCoding/Maze/Player.cpp
+index 2ee2bcc..cee97da 100644
+--- a/GameCoding/Maze/Player.cpp
++++ b/GameCoding/Maze/Player.cpp
+@@ -7,8 +7,9 @@ void Player::Init(Board* board)
+ 	_pos = board->GetEnterPos();
+ 	_board = board;
+ 
+-	CalculatePath_RightHand();
++	//CalculatePath_RightHand();
+ 	//CalculatePath_BFS();
++	CalculatePath_AStar();
+ }
+ 
+ void Player::Update(uint64 deltaTick)
+@@ -191,5 +192,150 @@ void Player::CalculatePath_BFS()
+ 	_path = temp;
+ 
+ 	// À§¿¡ temp·Î ¸¸µå´Â ÄÚµå¶û ¹ØÀÇ ÄÚµå¶û °°Àº °á°úÀÓ
+-	// std::reverse(_path.begin(), _path.end());
++	std::reverse(_path.begin(), _path.end());
++}
++
++
++// BFS, ´ÙÀÍ½ºÆ®¶ó´Â ¸ñÀûÁöÀÇ °³³äÀÌ ¾øÀ½!
++// ½ºÅ¸Å©·¡ÇÁÆ®ÀÇ ¾È°³Ã³·³ ½Ã¾ß¸¦ ¸·¾Æ¼­ ¾îµð·Î °¡¾ß ÇÏ´ÂÁö ¸ð¸£´Â °Í!
++
++// °á±¹ Ã¤Á¡À» ÇÒ ¶§ (Ã¤Á¡ ±âÁØ)
++// - ÀÔ±¸¿¡¼­ºÎÅÍ ¾ó¸¶³ª ¶³¾îÁ® ÀÖ´ÂÁö?
++// - Ãâ±¸¿¡¼­ºÎÅÍ ¾ó¸¶³ª ¶³¾îÁ® ÀÖ´ÂÁö?
++
++struct PQNode
++{
++	PQNode(int32 f, int32 g, Pos pos) : f(f), g(g), pos(pos) {}
++
++	bool operator<(const PQNode& other) const { return f < other.f; }
++	bool operator>(const PQNode& other) const { return f > other.f; }
++
++	int32 f;	// f = g + h
++	int32 g;
++	Pos pos;
++};
++
++void Player::CalculatePath_AStar()
++{
++	// F = G + H
++	// F = ÃÖÁ¾ Á¡¼ö(ÀÛÀ»¼ö·Ï ÁÁ´Ù)
++	// G = ½ÃÀÛÁ¡¿¡¼­ ÇØ´ç ÁÂÇ¥±îÁö ÀÌµ¿ÇÏ´Âµ¥ µå´Â ºñ¿ë
++	// H = ¸ñÀûÁö¿¡¼­ ÇØ´ç ÁÂÇ¥±îÁö ÀÌµ¿ÇÏ´Âµ¥ µå´Â ºñ¿ë	
++	// G ÇÏ³ª¸¸ ÀÖ°Å³ª H ÇÏ³ª¸¸ ÀÖ´Â °ø½Äµµ ´ç¿¬È÷ °¡´É
++	// ±×Àú Á¡¼ö¸¦ ¿ì¸®°¡ À¯µ¿ÀûÀ¸·Î ¸Å°Ü ÁÙ ¼ö ÀÖ´Ù´Â °ÍÀÌ ÇÙ½ÉÀÌ´Ù.
++
++	// ½ÃÀÛ À§Ä¡
++	Pos start = _pos;
++	// ¸ñÀûÁö, ¾ê¸¦ ÁøÂ¥·Î ÀÌ¿ëÇÏ°Ô µÈ´Ù!!
++	Pos dest = _board->GetExitPos();
++	// ³× ¹æÇâ Á¤ÀÇ
++	Pos front[] =
++	{
++		Pos(-1, 0),	//UP
++		Pos(0, -1),	//LEFT
++		Pos(1, 0),	//DOWN
++		Pos(0, 1),	//RIGHT
++	};
++
++	// »óÇÏÁÂ¿ì¿¡ ´ëÇÑ ÄÚ½ºÆ®
++	int32 cost[] =
++	{
++		10,
++		10,
++		10,
++		10,
++	};
++
++	const int32 size = _board->GetSize();
++
++	// best[y][x] -> Áö±Ý±îÁö (y, x)¿¡ ´ëÇÑ °¡Àå ÁÁÀº ºñ¿ë (ÀÛÀ»¼ö·Ï ÁÁÀ½)
++	vector<vector<int32>> best(size, vector<int32>(size, INT32_MAX));
++
++	// closedList -> closed[y][x] -> (y, x)¿¡ ½ÇÁ¦·Î ¹æ¹®À» Çß´ÂÁö ¿©ºÎ (¹ß°ß°ú ¹æ¹®Àº ´Ù¸£´Ù)
++	// Option) »ç½Ç best¸¸ ÆÇº° °¡´É
++	vector<vector<bool>> closed(size, vector<bool>(size, false));
++
++	// ºÎ¸ð ÃßÀû ¿ëµµ
++	vector<vector<Pos>> parent(size, vector<Pos>(size, Pos(-1, -1)));
++
++	// 1) ¿¹¾à ½Ã½ºÅÛ ±¸Çö
++	// 2) µÚ´Ê°Ô ´õ ÁÁÀº °æ·Î°¡ ¹ß°ßµÉ ¼ö ÀÖÀ½ -> ¿¹¿Ü Ã³¸® ÇÊ¿ä!
++
++	// OpenList: Áö±Ý±îÁö "¹ß°ß"µÈ ¸ñ·Ï
++	priority_queue<PQNode, vector<PQNode>, greater<PQNode>> pq;
++
++	{	// ½ÃÀÛ ÃÊ±âÈ­
++		int32 g = 0;
++		int32 h = 10 * (abs(dest.y - start.y) + abs(dest.x - start.x)); // ¸ñÀûÁö¿ÍÀÇ °Å¸®
++
++		pq.push(PQNode(g + h, g, start));
++		best[start.y][start.x] = g + h;
++		parent[start.y][start.x] = start;
++	}
++
++	while (pq.empty() == false)
++	{
++		// Á¦ÀÏ ÁÁÀº ÈÄº¸¸¦ Ã£´Â´Ù
++		PQNode node = pq.top();
++		pq.pop();
++
++		// µ¿ÀÏÇÑ ÁÂÇ¥¸¦ ¿©·¯ °æ·Î·Î Ã£¾Æ¼­
++		// ´õ ºü¸¥ °æ·Î·Î ÀÎÇØ¼­ ÀÌ¹Ì ¹æ¹®(closed)µÈ °æ¿ì ½ºÅµ
++		if (closed[node.pos.y][node.pos.x])
++			continue;
++
++		// ±â²¯ Ã£¾Ò´õ´Ï¸¸ ³ªº¸´Ù ´õ ¿ì¼öÇÑ ÈÄº¸°¡ ÀÖ´Ù?
++		// »ç½Ç ÀÌ ºÎºÐÀ¸·Î ´Ù ÆÇº°µÅ¼­ À§ÀÇ closed ÀÌÇÁ¹®Àº ¾ø¾îµµ µÊ
++		// ±×·¸Áö¸¸ °³³ä ÀÌÇØ»óÀ¸·Î ÀÖ´Â ÆíÀÌ ¸í½ÃÀûÀÌ¶ó ³Ö¾ú´Ù
++		if (best[node.pos.y][node.pos.x] < node.f)
++			continue;
++
++		// ¹æ¹®
++		closed[node.pos.y][node.pos.x] = true;
++
++		// ¸ñÀûÁö¿¡ µµÂøÇßÀ¸¸é ¹Ù·Î Á¾·á
++		if (node.pos == dest)
++			break;
++
++		for (int32 dir = 0; dir < DIR_COUNT; dir++) 
++		{
++			Pos nextPos = node.pos + front[dir];
++
++			// °¥ ¼ö ÀÖ´Â Áö¿ªÀº ¸Â´ÂÁö È®ÀÎ
++			if (CanGo(nextPos) == false)
++				continue;
++			// ÀÌ¹Ì ´õ °¥ ¼ö ¾øÀ¸¸é ÄÁÆ¼´º
++			if (closed[nextPos.y][nextPos.x])
++				continue;
++
++			int32 g = node.g + cost[dir];
++			int32 h = 10 * (abs(dest.y - nextPos.y) + abs(dest.x - nextPos.x));
++
++			// ´Ù¸¥ °æ·Î¿¡¼­ ´õ ºü¸¥ ±æÀ» Ã£¾ÒÀ¸¸é ½ºÅµ
++			if (best[nextPos.y][nextPos.x] <= g + h)
++				continue;
++
++			// ¿¹¾à ÁøÇà
++			best[nextPos.y][nextPos.x] = g + h;
++			pq.push(PQNode(g + h, g, nextPos));
++			parent[nextPos.y][nextPos.x] = node.pos;
++		}
++	}
++
++	_path.clear();
++	Pos pos = dest;
++
++	while (true)
++	{
++		_path.push_back(pos);
++
++		// ½ÃÀÛÁ¡ÀÎÁö ÆÇº°ÇÑ´Ù
++		if (pos == parent[pos.y][pos.x])
++			break;
++
++		pos = parent[pos.y][pos.x];
++	}
++
++	std::reverse(_path.begin(), _path.end());
++
+ }
+diff --git a/GameCoding/Maze/Player.h b/GameCoding/Maze/Player.h
+index b816c94..a65ceba 100644
+--- a/GameCoding/Maze/Player.h
++++ b/GameCoding/Maze/Player.h
+@@ -22,8 +22,8 @@ public:
+ 
+ private:
+ 	void		CalculatePath_RightHand();
+-	void		CalculatePath_BFS
+-	();
++	void		CalculatePath_BFS();
++	void		CalculatePath_AStar();
+ 
+ public:
+ 	Pos			_pos;
+diff --git a/GameCoding/Maze/Types.h b/GameCoding/Maze/Types.h
+index d335f1d..44dce0d 100644
+--- a/GameCoding/Maze/Types.h
++++ b/GameCoding/Maze/Types.h
+@@ -2,10 +2,10 @@
+ #pragma once
+ 
+ using int8		= __int8;
+-using int16		= __int8;
+-using int32		= __int8;
+-using int64		= __int8;
++using int16		= __int16;
++using int32		= __int32;
++using int64		= __int64;
+ using uint8		= unsigned __int8;
+-using uint16	= unsigned __int8;
+-using uint32	= unsigned __int8;
+-using uint64	= unsigned __int8;
++using uint16	= unsigned __int16;
++using uint32	= unsigned __int32;
++using uint64	= unsigned __int64;
+diff --git a/GameCoding/Maze/x64/Debug/Maze.ilk b/GameCoding/Maze/x64/Debug/Maze.ilk
+index 7119c44..ab1e0d1 100644
+Binary files a/GameCoding/Maze/x64/Debug/Maze.ilk and b/GameCoding/Maze/x64/Debug/Maze.ilk differ
+diff --git a/GameCoding/Maze/x64/Debug/Maze.log b/GameCoding/Maze/x64/Debug/Maze.log
+index 2e253a2..301bce6 100644
+--- a/GameCoding/Maze/x64/Debug/Maze.log
++++ b/GameCoding/Maze/x64/Debug/Maze.log
+@@ -1,2 +1,16 @@
+-ï»¿  Player.cpp
++ï»¿  Array.cpp
++  Board.cpp
++  ConsoleHelper.cpp
++  List.cpp
++  Maze.cpp
++D:\00.Project\StudyInInflearn\GameCoding\Maze\List.h(1,1): warning C4819: í˜„ìž¬ ì½”ë“œ íŽ˜ì´ì§€(949)ì—ì„œ í‘œì‹œí•  ìˆ˜ ì—†ëŠ” ë¬¸ìžê°€ íŒŒì¼ì— ë“¤ì–´ ìžˆìŠµë‹ˆë‹¤. ë°ì´í„°ê°€ ì†ì‹¤ë˜ì§€ ì•Šê²Œ í•˜ë ¤ë©´ í•´ë‹¹ íŒŒì¼ì„ ìœ ë‹ˆì½”ë“œ í˜•ì‹ìœ¼ë¡œ ì €ìž¥í•˜ì‹­ì‹œì˜¤.
++  (ì†ŒìŠ¤ íŒŒì¼ 'Maze.cpp'ì„(ë¥¼) ì»´íŒŒì¼í•˜ëŠ” ì¤‘)
++  
++  Player.cpp
++  Queue.cpp
++  Stack.cpp
++  Types.h
++  Vector.cpp
++  pch.cpp
++  ì½”ë“œë¥¼ ìƒì„±í•˜ê³  ìžˆìŠµë‹ˆë‹¤...
+   Maze.vcxproj -> D:\00.Project\StudyInInflearn\GameCoding\x64\Debug\Maze.exe
+diff --git a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.command.1.tlog b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.command.1.tlog
+index 675abfc..669cd07 100644
+Binary files a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.command.1.tlog and b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.command.1.tlog differ
+diff --git a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.read.1.tlog b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.read.1.tlog
+index da2f457..dadf615 100644
+Binary files a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.read.1.tlog and b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.read.1.tlog differ
+diff --git a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.write.1.tlog b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.write.1.tlog
+index c71c84f..665b4e2 100644
+Binary files a/GameCoding/Maze/x64/Debug/Maze.tlog/CL.write.1.tlog and b/GameCoding/Maze/x64/Debug/Maze.tlog/CL.write.1.tlog differ
+diff --git a/GameCoding/Maze/x64/Debug/Maze.tlog/link.read.1.tlog b/GameCoding/Maze/x64/Debug/Maze.tlog/link.read.1.tlog
+index 2f0ecd3..8822a01 100644
+Binary files a/GameCoding/Maze/x64/Debug/Maze.tlog/link.read.1.tlog and b/GameCoding/Maze/x64/Debug/Maze.tlog/link.read.1.tlog differ
+diff --git a/GameCoding/Maze/x64/Debug/vc143.idb b/GameCoding/Maze/x64/Debug/vc143.idb
+index 8ca2d31..c3cb911 100644
+Binary files a/GameCoding/Maze/x64/Debug/vc143.idb and b/GameCoding/Maze/x64/Debug/vc143.idb differ
+diff --git a/GameCoding/Maze/x64/Debug/vc143.pdb b/GameCoding/Maze/x64/Debug/vc143.pdb
+index db52fb4..446fec4 100644
+Binary files a/GameCoding/Maze/x64/Debug/vc143.pdb and b/GameCoding/Maze/x64/Debug/vc143.pdb differ
+diff --git a/GameCoding/x64/Debug/Maze.pdb b/GameCoding/x64/Debug/Maze.pdb
+index 6aeba4e..b7aec38 100644
+Binary files a/GameCoding/x64/Debug/Maze.pdb and b/GameCoding/x64/Debug/Maze.pdb differ

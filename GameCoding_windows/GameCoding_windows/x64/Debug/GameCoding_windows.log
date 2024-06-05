@@ -1,2 +1,63 @@
-﻿  GameCoding_windows.cpp
-  GameCoding_windows.vcxproj -> D:\00.Project\StudyInInflearn\GameCoding_windows\x64\Debug\GameCoding_windows.exe
+﻿  pch.cpp
+  DevScene.cpp
+  Game.cpp
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5): error C2664: 'BOOL TextOutA(HDC,int,int,LPCSTR,int)': 인수 4을(를) 'const _Elem *'에서 'LPCSTR'(으)로 변환할 수 없습니다.
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5): error C2664:         with
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5): error C2664:         [
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5): error C2664:             _Elem=wchar_t
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5): error C2664:         ]
+  (소스 파일 '/Game.cpp'을(를) 컴파일하는 중)
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,36):
+  가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 괄호가 있는 함수 스타일 캐스트가 필요합니다.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\wingdi.h(5146,25):
+  'TextOutA' 선언을 참조하십시오.
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(50,5):
+  인수 목록 '(HDC, int, int, const _Elem *, int32)'을(를) 일치시키는 동안
+          with
+          [
+              _Elem=wchar_t
+          ]
+  
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5): error C2664: 'BOOL TextOutA(HDC,int,int,LPCSTR,int)': 인수 4을(를) 'const _Elem *'에서 'LPCSTR'(으)로 변환할 수 없습니다.
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5): error C2664:         with
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5): error C2664:         [
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5): error C2664:             _Elem=wchar_t
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5): error C2664:         ]
+  (소스 파일 '/Game.cpp'을(를) 컴파일하는 중)
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,37):
+  가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 괄호가 있는 함수 스타일 캐스트가 필요합니다.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\wingdi.h(5146,25):
+  'TextOutA' 선언을 참조하십시오.
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Game.cpp(57,5):
+  인수 목록 '(HDC, int, int, const _Elem *, int32)'을(를) 일치시키는 동안
+          with
+          [
+              _Elem=wchar_t
+          ]
+  
+  GameCoding_windows.cpp
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\GameCoding_windows.cpp(167,1): error C1010: 미리 컴파일된 헤더를 찾는 동안 예기치 않은 파일의 끝이 나타났습니다. '#include "pch.h"'을(를) 소스에 추가하시겠습니까?
+  GameScene.cpp
+  InputManager.cpp
+  Scene.cpp
+  SceneManager.cpp
+  TimeManager.cpp
+  Utils.cpp
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4): error C2664: 'BOOL TextOutA(HDC,int,int,LPCSTR,int)': 인수 4을(를) 'const _Elem *'에서 'LPCSTR'(으)로 변환할 수 없습니다.
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4): error C2664:         with
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4): error C2664:         [
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4): error C2664:             _Elem=wchar_t
+D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4): error C2664:         ]
+  (소스 파일 '/Utils.cpp'을(를) 컴파일하는 중)
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,80):
+  가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 괄호가 있는 함수 스타일 캐스트가 필요합니다.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\wingdi.h(5146,25):
+  'TextOutA' 선언을 참조하십시오.
+  D:\00.Project\StudyInInflearn\GameCoding_windows\GameCoding_windows\Utils.cpp(6,4):
+  인수 목록 '(HDC, int32, int32, const _Elem *, int32)'을(를) 일치시키는 동안
+          with
+          [
+              _Elem=wchar_t
+          ]
+  
+  코드를 생성하고 있습니다...
