@@ -44,21 +44,13 @@ void Game::Render()
 	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
-	{
-		POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
-		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(_hdc, 20, 10, str.c_str(), static_cast<int32>(str.size()));
-		::Rectangle(_hdc, mousePos.x - 100, mousePos.y-100, mousePos.x + 100, mousePos.y+100);
-	}
+	GET_SINGLE(SceneManager)->Render(_hdc);
 	
 	{
 		// WCHAR  buffer[100]; // 이건 옛날 방식이다.
 		wstring str = std::format(L"FPS({0}), DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
-		::TextOut(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
+		::TextOutW(_hdc, 650, 10, str.c_str(), static_cast<int32>(str.size()));
 	}
-
-
-	GET_SINGLE(SceneManager)->Render(_hdc);
-	
+		
 	// 더블 버퍼링에 대해서 면접에서 묻는 경우 있다. 알아둘 것.
 }

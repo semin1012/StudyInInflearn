@@ -3,7 +3,7 @@
 
 void Utils::DrawText(HDC hdc, Pos pos, const wstring& str)
 {
-	::TextOut(hdc, static_cast<int32>(pos.x), static_cast<int32>(pos.y), str.c_str(), static_cast<int32>(str.size()));
+	::TextOutW(hdc, static_cast<int32>(pos.x), static_cast<int32>(pos.y), str.c_str(), static_cast<int32>(str.size()));
 }
 
 void Utils::DrawRect(HDC hdc, Pos pos, int32 w, int32 h)
@@ -13,7 +13,7 @@ void Utils::DrawRect(HDC hdc, Pos pos, int32 w, int32 h)
 
 void Utils::DrawCircle(HDC hdc, Pos pos, int32 radius)
 {
-	::Ellipse(hdc, static_cast<int32>(pos.x - radius), static_cast<int32>(pos.y + radius), static_cast<int32>(pos.x + radius), static_cast<int32>(pos.y + radius));
+	::Ellipse(hdc, static_cast<int32>(pos.x - radius), static_cast<int32>(pos.y - radius), static_cast<int32>(pos.x + radius), static_cast<int32>(pos.y + radius));
 }
 
 void Utils::DrawLine(HDC hdc, Pos from, Pos to)
