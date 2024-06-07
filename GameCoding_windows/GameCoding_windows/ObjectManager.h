@@ -14,6 +14,7 @@ public:
 	void Clear();
 
 	const vector<Object*>& GetObjects() { return _objects; }
+	// &로 만든 이유? : 복사 비용 아끼려고
 
 	template<typename T>
 	T* CreateObject()
